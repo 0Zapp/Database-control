@@ -7,6 +7,8 @@ import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
 import resource.implementation.InformationResource;
+import tempClasses.WorkspaceModel;
+import tempClasses.WorkspaceTree;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -49,7 +51,8 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton AddBottom;
 	private JButton CommitBottom;
 
-	private JTree workspaceTree;// todo JTree
+	private WorkspaceModel workspaceModel;
+	private WorkspaceTree workspaceTree;
 
 	private MainFrame() {
 
@@ -69,7 +72,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//SwingUtilities.updateComponentTreeUI(this);
+		//	SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,8 +80,10 @@ public class MainFrame extends JFrame implements Subscriber {
 	}
 
 	private void initialiseWorkspaceTree() {
-		workspaceTree= new JTree();//todo
-		
+		workspaceTree = new WorkspaceTree();
+		workspaceModel = new WorkspaceModel();
+		workspaceTree.setModel(workspaceModel);
+
 	}
 
 	private void initialiseGui() {
@@ -106,15 +111,15 @@ public class MainFrame extends JFrame implements Subscriber {
 		CommitTop = new JButton("Commit");
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		
+
 		buttonPanelTop.add(RefreshTop);
 		buttonPanelTop.add(DeleteTop);
 		buttonPanelTop.add(AddTop);
 		buttonPanelTop.add(CommitTop);
-		
+
 		topPanel = new JPanel(new BorderLayout());
-		topPanel.add(scrollTableTop,BorderLayout.CENTER);
-		topPanel.add(buttonPanelTop,BorderLayout.SOUTH);
+		topPanel.add(scrollTableTop, BorderLayout.CENTER);
+		topPanel.add(buttonPanelTop, BorderLayout.SOUTH);
 
 		jTableBottom = new JTable();
 		jTableBottom.setPreferredScrollableViewportSize(new Dimension(500, 300));
@@ -125,17 +130,17 @@ public class MainFrame extends JFrame implements Subscriber {
 		DeleteBottom = new JButton("Delete");
 		AddBottom = new JButton("Add");
 		CommitBottom = new JButton("Commit");
-		
+
 		buttonPanelBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		
+
 		buttonPanelBottom.add(RefreshBottom);
 		buttonPanelBottom.add(DeleteBottom);
 		buttonPanelBottom.add(AddBottom);
 		buttonPanelBottom.add(CommitBottom);
 
 		bottomPanel = new JPanel(new BorderLayout());
-		bottomPanel.add(scrollTableBottom,BorderLayout.CENTER);
-		bottomPanel.add(buttonPanelBottom,BorderLayout.SOUTH);
+		bottomPanel.add(scrollTableBottom, BorderLayout.CENTER);
+		bottomPanel.add(buttonPanelBottom, BorderLayout.SOUTH);
 
 		splitTable = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, bottomPanel);
 
