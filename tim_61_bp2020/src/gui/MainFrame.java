@@ -49,7 +49,7 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton AddBottom;
 	private JButton CommitBottom;
 
-	private JTree workspaceTree;// todo
+	private JTree workspaceTree;// todo JTree
 
 	private MainFrame() {
 
@@ -64,15 +64,21 @@ public class MainFrame extends JFrame implements Subscriber {
 	}
 
 	private void initialise() {
+		initialiseWorkspaceTree();
 		initialiseGui();
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			SwingUtilities.updateComponentTreeUI(this);
+			//SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void initialiseWorkspaceTree() {
+		workspaceTree= new JTree();//todo
+		
 	}
 
 	private void initialiseGui() {
@@ -148,6 +154,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		this.appCore = appCore;
 		this.appCore.addSubscriber(this);
 		this.jTableTop.setModel(appCore.getTableModel());
+		this.jTableBottom.setModel(appCore.getTableModel());
 	}
 
 	@Override
@@ -159,6 +166,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		else {
 			jTableTop.setModel((TableModel) notification.getData());
+			jTableBottom.setModel(appCore.getTableModel());
 		}
 
 	}
