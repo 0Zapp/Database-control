@@ -167,14 +167,14 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
-			//IRTreeModel.setRoot((TreeNode) notification.getData());
-			//SwingUtilities.updateComponentTreeUI(this);
-			 for (DBNode d : ((InformationResource) notification.getData()).getChildren())
-			 {
-			 ((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
-			 System.out.println(d);
-			 SwingUtilities.updateComponentTreeUI(this);
-			 }
+			// IRTreeModel.setRoot((TreeNode) notification.getData());
+			// SwingUtilities.updateComponentTreeUI(this);
+			for (DBNode d : ((InformationResource) notification.getData()).getChildren()) {
+				//((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
+				IRTreeModel.addEntity(d);
+				System.out.println(d);
+				SwingUtilities.updateComponentTreeUI(this);
+			}
 		}
 
 		else {
