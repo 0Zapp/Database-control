@@ -77,7 +77,6 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			// SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +87,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		IRTree = new IRTree();
 		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
 		IRTree.setModel(IRTreeModel);
-		SwingUtilities.updateComponentTreeUI(this);
+		SwingUtilities.updateComponentTreeUI(getIRTree());
 
 	}
 
@@ -174,7 +173,6 @@ public class MainFrame extends JFrame implements Subscriber {
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
 			IRTreeModel.setRoot((TreeNode) notification.getData());
-			// SwingUtilities.updateComponentTreeUI(this);
 		}
 
 		else {

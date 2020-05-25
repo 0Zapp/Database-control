@@ -22,20 +22,6 @@ public class IRTreeCellRendered extends DefaultTreeCellRenderer {
 			int row, boolean hasFocus) {
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
-		if (value instanceof AttributeConstraint) {
-			setIcon(new ImageIcon("images/page-icon.png"));
-
-		} else if (value instanceof Entity) {
-			setIcon(new ImageIcon("images/project-icon.png"));
-
-		} else if (value instanceof Attribute) {
-			setIcon(new ImageIcon("images/document-icon.png"));
-
-		} else if (value instanceof InformationResource) {
-			setIcon(new ImageIcon("images/workspace-icon.png"));
-
-		}
-
 		return this;
 	}
 
