@@ -6,7 +6,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import resource.implementation.Entity;
 
-
 public class IRTree extends JTree {
 
 	public IRTree() {
@@ -17,7 +16,7 @@ public class IRTree extends JTree {
 		setEditable(true);
 	}
 
-	public void addProject(Entity entity) {
+	public void addEntity(Entity entity) {
 		((IRTreeModel) getModel()).addEntity(entity);
 		SwingUtilities.updateComponentTreeUI(this);
 	}

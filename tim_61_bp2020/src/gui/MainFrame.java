@@ -1,15 +1,15 @@
 package gui;
 
 import app.AppCore;
-import app.Main;
 import lombok.Data;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
+import resource.DBNode;
+import resource.DBNodeComposite;
 import resource.implementation.InformationResource;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.tree.TreeNode;
 
@@ -17,10 +17,6 @@ import IRTree.IRTree;
 import IRTree.IRTreeModel;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.Transferable;
-import java.util.Vector;
 
 @Data
 public class MainFrame extends JFrame implements Subscriber {
@@ -171,7 +167,14 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
-			IRTreeModel.setRoot((TreeNode) notification.getData());
+			//IRTreeModel.setRoot((TreeNode) notification.getData());
+			//SwingUtilities.updateComponentTreeUI(this);
+			 for (DBNode d : ((InformationResource) notification.getData()).getChildren())
+			 {
+			 ((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
+			 System.out.println(d);
+			 SwingUtilities.updateComponentTreeUI(this);
+			 }
 		}
 
 		else {

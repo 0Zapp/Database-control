@@ -61,7 +61,6 @@ public class MSSQLrepository implements Repository {
 				String tableName = tables.getString("TABLE_NAME");
 				Entity newTable = new Entity(tableName, ir);
 				ir.addChild(newTable);
-				System.out.println("---" + newTable);
 
 				// Koje atribute imaja ova tabela?
 
@@ -75,7 +74,6 @@ public class MSSQLrepository implements Repository {
 					Attribute attribute = new Attribute(columnName, newTable,
 							AttributeType.valueOf(columnType.toUpperCase()), columnSize);
 					newTable.addChild(attribute);
-					System.out.println("------" + attribute);
 				}
 
 			}
