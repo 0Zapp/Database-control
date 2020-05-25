@@ -11,6 +11,11 @@ public class IRTreeModel extends DefaultTreeModel {
 		super(new InformationResource(null));
 
 	}
+	
+	public IRTreeModel(InformationResource ir) {
+		super(ir);
+
+	}
 
 	public void addEntity(DBNode entity) {
 		((InformationResource) getRoot()).addChild(entity);

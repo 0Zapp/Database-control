@@ -45,7 +45,7 @@ public abstract class DBNodeComposite extends DBNode {
 	@Override
 	public boolean getAllowsChildren() {
 		return true;
-		//return false;
+		// return false;
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public abstract class DBNodeComposite extends DBNode {
 
 	@Override
 	public boolean isLeaf() {
-		//mozda true ponekad, ali mislim da treba false da vrati
+		// mozda true ponekad, ali mislim da treba false da vrati
 		return false;
 	}
 

@@ -18,6 +18,4 @@ public abstract class DBNode implements TreeNode {
 	@ToString.Exclude
 	private DBNode parent;
 
-	
-    
 }

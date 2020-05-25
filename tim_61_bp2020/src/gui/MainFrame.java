@@ -11,6 +11,7 @@ import resource.implementation.InformationResource;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.tree.TreeNode;
 
 import IRTree.IRTree;
 import IRTree.IRTreeModel;
@@ -73,7 +74,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		//	SwingUtilities.updateComponentTreeUI(this);
+			// SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -82,7 +83,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private void initialiseWorkspaceTree() {
 		IRTree = new IRTree();
-		IRTreeModel = new IRTreeModel();
+		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
 		IRTree.setModel(IRTreeModel);
 
 	}
@@ -168,6 +169,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
+			IRTreeModel.setRoot((TreeNode) notification.getData());
 		}
 
 		else {

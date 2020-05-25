@@ -20,47 +20,46 @@ import java.util.List;
 
 public class AppCore extends PublisherImplementation {
 
-    private Database database;
-    private Settings settings;
-    private TableModel tableModel;
+	private Database database;
+	private Settings settings;
+	private TableModel tableModel;
 
-    public AppCore() {
-        this.settings = initSettings();
-        this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
-        tableModel = new TableModel();
-    }
+	public AppCore() {
+		this.settings = initSettings();
+		this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
+		tableModel = new TableModel();
+	}
 
-    private Settings initSettings() {
-        Settings settingsImplementation = new SettingsImplementation();
-        settingsImplementation.addParameter("mssql_ip", Constants.MSSQL_IP);
-        settingsImplementation.addParameter("mssql_database", Constants.MSSQL_DATABASE);
-        settingsImplementation.addParameter("mssql_username", Constants.MSSQL_USERNAME);
-        settingsImplementation.addParameter("mssql_password", Constants.MSSQL_PASSWORD);
-        return settingsImplementation;
-    }
+	private Settings initSettings() {
+		Settings settingsImplementation = new SettingsImplementation();
+		settingsImplementation.addParameter("mssql_ip", Constants.MSSQL_IP);
+		settingsImplementation.addParameter("mssql_database", Constants.MSSQL_DATABASE);
+		settingsImplementation.addParameter("mssql_username", Constants.MSSQL_USERNAME);
+		settingsImplementation.addParameter("mssql_password", Constants.MSSQL_PASSWORD);
+		return settingsImplementation;
+	}
 
+	public void loadResource() {
+		InformationResource ir = (InformationResource) this.database.loadResource();
 
-    public void loadResource(){
-        InformationResource ir = (InformationResource) this.database.loadResource();
-        this.notifySubscribers(new Notification(NotificationCode.RESOURCE_LOADED,ir));
-    }
+		this.notifySubscribers(new Notification(NotificationCode.RESOURCE_LOADED, ir));
+	}
 
-    public void readDataFromTable(String fromTable){
+	public void readDataFromTable(String fromTable) {
 
-        tableModel.setRows(this.database.readDataFromTable(fromTable));
+		tableModel.setRows(this.database.readDataFromTable(fromTable));
 
-        //Zasto ova linija moze da ostane zakomentarisana?
-        //this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED, this.getTableModel()));
-    }
+		// Zasto ova linija moze da ostane zakomentarisana?
+		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
+		// this.getTableModel()));
+	}
 
+	public TableModel getTableModel() {
+		return tableModel;
+	}
 
-    public TableModel getTableModel() {
-        return tableModel;
-    }
-
-    public void setTableModel(TableModel tableModel) {
-        this.tableModel = tableModel;
-    }
-
+	public void setTableModel(TableModel tableModel) {
+		this.tableModel = tableModel;
+	}
 
 }

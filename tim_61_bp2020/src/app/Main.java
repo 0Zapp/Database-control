@@ -8,23 +8,23 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
-        AppCore appCore = new AppCore();
-        MainFrame mainFrame = MainFrame.getInstance();
-        mainFrame.setAppCore(appCore);
+	public static void main(String[] args) {
 
+		AppCore appCore = new AppCore();
+		MainFrame mainFrame = MainFrame.getInstance();
+		mainFrame.setAppCore(appCore);
 
-        mainFrame.getAppCore().readDataFromTable("COUNTRIES");
-        mainFrame.getAppCore().loadResource();
+		mainFrame.getAppCore().readDataFromTable("COUNTRIES");
+		mainFrame.getAppCore().loadResource();
 
+		try {
+			Thread.sleep(6000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+		mainFrame.getAppCore().readDataFromTable("DEPARTMENTS");
 
-        mainFrame.getAppCore().readDataFromTable("DEPARTMENTS");
-    }
+	}
 
 }
