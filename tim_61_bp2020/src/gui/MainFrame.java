@@ -80,7 +80,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private void initialiseWorkspaceTree() {
 		IRTree = new IRTree();
-		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
+		IRTreeModel = new IRTreeModel(new InformationResource("loading...."));
 		IRTree.setModel(IRTreeModel);
 		SwingUtilities.updateComponentTreeUI(this);
 
@@ -165,16 +165,8 @@ public class MainFrame extends JFrame implements Subscriber {
 	public void update(Notification notification) {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
-			System.out.println((InformationResource) notification.getData());
 			IRTreeModel.setRoot((TreeNode) notification.getData());
 
-			// for (DBNode d : ((InformationResource) notification.getData()).getChildren())
-			// {
-			// ((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
-			// IRTreeModel.addEntity(d);
-			// System.out.println(d);
-			// SwingUtilities.updateComponentTreeUI(this);
-			// }
 		}
 
 		else {

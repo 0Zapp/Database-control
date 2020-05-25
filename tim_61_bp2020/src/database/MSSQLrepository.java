@@ -6,7 +6,9 @@ import database.settings.Settings;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
+import resource.enums.ConstraintType;
 import resource.implementation.Attribute;
+import resource.implementation.AttributeConstraint;
 import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 
@@ -68,12 +70,76 @@ public class MSSQLrepository implements Repository {
 
 				while (columns.next()) {
 
+					ResultSet primaryKeys = metaData.getPrimaryKeys(connection.getCatalog(), null, newTable.getName());
+					ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
+
 					String columnName = columns.getString("COLUMN_NAME");
 					String columnType = columns.getString("TYPE_NAME");
 					int columnSize = Integer.parseInt(columns.getString("COLUMN_SIZE"));
 					Attribute attribute = new Attribute(columnName, newTable,
 							AttributeType.valueOf(columnType.toUpperCase()), columnSize);
 					newTable.addChild(attribute);
+
+					// detect if null
+					String isNUll = columns.getString("IS_NULLABLE");
+					if (isNUll.equals("NO")) {
+						AttributeConstraint ac = new AttributeConstraint("NOT_NULL", attribute,
+								ConstraintType.NOT_NULL);
+						attribute.addChild(ac);
+					}
+
+					// detect if has default
+					String hasDefault = columns.getString("COLUMN_DEF");
+					if (hasDefault != null) {
+						AttributeConstraint ac = new AttributeConstraint("DEFAULT_VALUE", attribute,
+								ConstraintType.DEFAULT_VALUE);
+						attribute.addChild(ac);
+					}
+
+					// detect if domain value
+					String dataType = columns.getString("TYPE_NAME");
+					boolean Domain = false;
+
+					for (AttributeType a : AttributeType.values()) {
+						if (dataType.toUpperCase().equals(a.name())) {
+							Domain = true;
+						}
+					}
+
+					if (!Domain) {
+						AttributeConstraint ac = new AttributeConstraint("DOMAIN_VALUE", attribute,
+								ConstraintType.DOMAIN_VALUE);
+						attribute.addChild(ac);
+					}
+
+					// detect primary key
+					while (primaryKeys.next()) {
+
+						String pkColumnName = primaryKeys.getString("COLUMN_NAME");
+
+						if (pkColumnName.equals(columnName)) {
+							AttributeConstraint ac = new AttributeConstraint("PRIMARY_KEY", attribute,
+									ConstraintType.PRIMARY_KEY);
+							attribute.addChild(ac);
+						}
+
+					}
+
+					// detect foreign keys
+					while (foreignKeys.next()) {
+						String TableName = foreignKeys.getString("FKTABLE_NAME");
+						String ColumnName = foreignKeys.getString("FKCOLUMN_NAME");
+						String pkTableName = foreignKeys.getString("PKTABLE_NAME");
+						String pkColumnName = foreignKeys.getString("PKCOLUMN_NAME");
+						if (TableName.contentEquals(tableName) && ColumnName.equals(columnName)) {
+							AttributeConstraint ac = new AttributeConstraint("FOREIGN_KEY", attribute,
+									ConstraintType.FOREIGN_KEY);
+							attribute.addChild(ac);
+						}
+
+						// private Attribute inRelationWith;
+					}
+
 				}
 
 			}
