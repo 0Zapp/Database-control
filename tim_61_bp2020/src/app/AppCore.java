@@ -6,7 +6,7 @@ import database.MSSQLrepository;
 import database.settings.Settings;
 import database.settings.SettingsImplementation;
 import gui.table.TableModel;
-import lombok.Data;
+//import lombok.Data;
 import observer.Notification;
 import observer.Publisher;
 import observer.Subscriber;

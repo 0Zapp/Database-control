@@ -4,13 +4,13 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
-import lombok.Data;
-import lombok.ToString;
+//import lombok.Data;
+//import lombok.ToString;
 import resource.DBNode;
 import resource.DBNodeComposite;
 
-@Data
-@ToString(callSuper = true)
+//@Data
+//@ToString(callSuper = true)
 public class InformationResource extends DBNodeComposite {
 
 	public InformationResource(String name) {

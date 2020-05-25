@@ -1,8 +1,8 @@
 package resource;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.ToString;
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
+//import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -10,9 +10,17 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-@Data
-@ToString(callSuper = true)
+//@Data
+//@ToString(callSuper = true)
 public abstract class DBNodeComposite extends DBNode {
+
+	public List<DBNode> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<DBNode> children) {
+		this.children = children;
+	}
 
 	private List<DBNode> children;
 

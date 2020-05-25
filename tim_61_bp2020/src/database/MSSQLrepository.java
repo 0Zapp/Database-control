@@ -1,8 +1,8 @@
 package database;
 
 import database.settings.Settings;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+//import lombok.AllArgsConstructor;
+//import lombok.Data;
 import resource.DBNode;
 import resource.data.Row;
 import resource.enums.AttributeType;
@@ -14,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+//@Data
 public class MSSQLrepository implements Repository {
 
 	private Settings settings;

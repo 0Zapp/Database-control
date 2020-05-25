@@ -4,23 +4,23 @@ import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 
-import lombok.Data;
-import lombok.ToString;
+//import lombok.Data;
+//import lombok.ToString;
 import resource.DBNode;
 import resource.enums.ConstraintType;
 
-@Data
-@ToString(callSuper = true)
+//@Data
+//@ToString(callSuper = true)
 public class AttributeConstraint extends DBNode {
 
-    private ConstraintType constraintType;
+	private ConstraintType constraintType;
 
-    public AttributeConstraint(String name, DBNode parent, ConstraintType constraintType) {
-        super(name, parent);
-        this.constraintType = constraintType;
-    }
+	public AttributeConstraint(String name, DBNode parent, ConstraintType constraintType) {
+		super(name, parent);
+		this.constraintType = constraintType;
+	}
 
-    @Override
+	@Override
 	public Enumeration children() {
 		return null;
 	}
@@ -49,7 +49,7 @@ public class AttributeConstraint extends DBNode {
 	public boolean isLeaf() {
 		return true;
 	}
-	
+
 	public String toString() {
 
 		return name;

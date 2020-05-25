@@ -1,12 +1,10 @@
 package gui;
 
 import app.AppCore;
-import lombok.Data;
+//import lombok.Data;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
-import resource.DBNode;
-import resource.DBNodeComposite;
 import resource.implementation.InformationResource;
 
 import javax.swing.*;
@@ -18,7 +16,7 @@ import IRTree.IRTreeModel;
 
 import java.awt.*;
 
-@Data
+//@Data
 public class MainFrame extends JFrame implements Subscriber {
 
 	private static MainFrame instance = null;
@@ -70,19 +68,21 @@ public class MainFrame extends JFrame implements Subscriber {
 	private void initialise() {
 		initialiseWorkspaceTree();
 		initialiseGui();
-
+		SwingUtilities.updateComponentTreeUI(this);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		this.setVisible(true);
 	}
 
 	private void initialiseWorkspaceTree() {
 		IRTree = new IRTree();
 		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
 		IRTree.setModel(IRTreeModel);
+		SwingUtilities.updateComponentTreeUI(this);
 
 	}
 
@@ -151,7 +151,6 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		this.pack();
 		this.setLocationRelativeTo(null);
-		this.setVisible(true);
 
 	}
 
@@ -167,14 +166,15 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
-			// IRTreeModel.setRoot((TreeNode) notification.getData());
+			IRTreeModel.setRoot((TreeNode) notification.getData());
+
+			// for (DBNode d : ((InformationResource) notification.getData()).getChildren())
+			// {
+			// ((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
+			// IRTreeModel.addEntity(d);
+			// System.out.println(d);
 			// SwingUtilities.updateComponentTreeUI(this);
-			for (DBNode d : ((InformationResource) notification.getData()).getChildren()) {
-				//((DBNodeComposite) (IRTreeModel.getRoot())).addChild(d);
-				IRTreeModel.addEntity(d);
-				System.out.println(d);
-				SwingUtilities.updateComponentTreeUI(this);
-			}
+			// }
 		}
 
 		else {
@@ -184,4 +184,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	}
 
+	public AppCore getAppCore() {
+		return appCore;
+	}
 }
