@@ -135,6 +135,7 @@ public class MSSQLrepository implements Repository {
 							AttributeConstraint ac = new AttributeConstraint("FOREIGN_KEY", attribute,
 									ConstraintType.FOREIGN_KEY);
 							attribute.addChild(ac);
+
 						}
 
 						// private Attribute inRelationWith;
@@ -144,14 +145,7 @@ public class MSSQLrepository implements Repository {
 
 			}
 
-			// TODO Ogranicenja nad kolonama? Relacije?
-
 			return ir;
-			// String isNullable = columns.getString("IS_NULLABLE");
-			// ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(),
-			// null, table.getName());
-			// ResultSet primaryKeys = metaData.getPrimaryKeys(connection.getCatalog(),
-			// null, table.getName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
