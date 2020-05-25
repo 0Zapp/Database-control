@@ -47,9 +47,10 @@ public class IRTreeController implements TreeSelectionListener {
 
 		}
 
-		System.out.println(informationResource + " " + entity + " " + attribute + " " + attributeConstraint);
-		// MainFrame.getInstance().changeProjectView(path.getParentPath(), project,
-		// document, page, mode);
+		if (entity != null) {
+			MainFrame mainFrame = MainFrame.getInstance();
+			mainFrame.getAppCore().readDataFromTable(entity.toString());
+		}
 
 	}
 

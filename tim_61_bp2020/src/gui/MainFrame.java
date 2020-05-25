@@ -87,7 +87,6 @@ public class MainFrame extends JFrame implements Subscriber {
 		IRTree = new IRTree();
 		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
 		IRTree.setModel(IRTreeModel);
-		SwingUtilities.updateComponentTreeUI(getIRTree());
 
 	}
 
