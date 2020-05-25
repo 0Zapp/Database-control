@@ -1,4 +1,4 @@
-package tempClasses;
+package IRTree;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

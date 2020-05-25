@@ -7,12 +7,13 @@ import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
 import resource.implementation.InformationResource;
-import tempClasses.IRTree;
-import tempClasses.IRTreeModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import IRTree.IRTree;
+import IRTree.IRTreeModel;
 
 import java.awt.*;
 import java.util.Vector;

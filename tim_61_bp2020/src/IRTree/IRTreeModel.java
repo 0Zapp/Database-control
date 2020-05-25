@@ -1,4 +1,4 @@
-package tempClasses;
+package IRTree;
 
 import javax.swing.tree.DefaultTreeModel;
 

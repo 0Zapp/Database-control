@@ -1,4 +1,4 @@
-package tempClasses;
+package IRTree;
 
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
