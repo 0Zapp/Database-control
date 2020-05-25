@@ -7,6 +7,8 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
 @Data
 @ToString(callSuper = true)
 public abstract class DBNodeComposite extends DBNode{

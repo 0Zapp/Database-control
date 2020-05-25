@@ -7,8 +7,8 @@ import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
 import resource.implementation.InformationResource;
-import tempClasses.WorkspaceModel;
-import tempClasses.WorkspaceTree;
+import tempClasses.IRTree;
+import tempClasses.IRTreeModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -51,8 +51,8 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton AddBottom;
 	private JButton CommitBottom;
 
-	private WorkspaceModel workspaceModel;
-	private WorkspaceTree workspaceTree;
+	private IRTreeModel IRTreeModel;
+	private IRTree IRTree;
 
 	private MainFrame() {
 
@@ -80,9 +80,9 @@ public class MainFrame extends JFrame implements Subscriber {
 	}
 
 	private void initialiseWorkspaceTree() {
-		workspaceTree = new WorkspaceTree();
-		workspaceModel = new WorkspaceModel();
-		workspaceTree.setModel(workspaceModel);
+		IRTree = new IRTree();
+		IRTreeModel = new IRTreeModel();
+		IRTree.setModel(IRTreeModel);
 
 	}
 
@@ -95,7 +95,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		setTitle("Baze Projekat");
 
-		scroll = new JScrollPane(workspaceTree);
+		scroll = new JScrollPane(IRTree);
 		scroll.setPreferredSize(new Dimension(250, 250));
 		scroll.setMinimumSize((new Dimension(200, 200)));
 		scroll.setMaximumSize(new Dimension(300, 300));

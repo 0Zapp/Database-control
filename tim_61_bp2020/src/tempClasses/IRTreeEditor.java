@@ -11,12 +11,16 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-public class WorkspaceTreeEditor extends DefaultTreeCellEditor implements ActionListener {
+import resource.implementation.Attribute;
+import resource.implementation.AttributeConstraint;
+import resource.implementation.Entity;
+
+public class IRTreeEditor extends DefaultTreeCellEditor implements ActionListener {
 
 	private Object stavka = null;
 	private JTextField edit = null;
 
-	public WorkspaceTreeEditor(JTree arg0, DefaultTreeCellRenderer arg1) {
+	public IRTreeEditor(JTree arg0, DefaultTreeCellRenderer arg1) {
 		super(arg0, arg1);
 	}
 
@@ -40,12 +44,12 @@ public class WorkspaceTreeEditor extends DefaultTreeCellEditor implements Action
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (stavka instanceof Table) {
-			((Table) stavka).setName(e.getActionCommand());
-		} else if (stavka instanceof Atribut) {
-			((Atribut) stavka).setName(e.getActionCommand());
+		if (stavka instanceof Entity) {
+			((Entity) stavka).setName(e.getActionCommand());
+		} else if (stavka instanceof Attribute) {
+			((Attribute) stavka).setName(e.getActionCommand());
 		} else {
-			((Constraint) stavka).setName(e.getActionCommand());
+			((AttributeConstraint) stavka).setName(e.getActionCommand());
 		}
 
 	}

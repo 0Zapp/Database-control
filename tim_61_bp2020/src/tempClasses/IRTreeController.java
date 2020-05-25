@@ -5,8 +5,12 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 
 import gui.MainFrame;
+import resource.implementation.Attribute;
+import resource.implementation.AttributeConstraint;
+import resource.implementation.Entity;
+import resource.implementation.InformationResource;
 
-public class WorkspaceTreeController implements TreeSelectionListener {
+public class IRTreeController implements TreeSelectionListener {
 
 	public void valueChanged(TreeSelectionEvent e) {
 		// TODO Auto-generated method stub
@@ -16,25 +20,25 @@ public class WorkspaceTreeController implements TreeSelectionListener {
 						// 1-selektovan project
 						// 2-selectovan document
 						// 3-selectovan page;
-		Workspace workspace = null;
-		Table project = null;
-		Atribut document = null;
-		Constraint page = null;
+		InformationResource informationResource = null;
+		Entity entity = null;
+		Attribute attribute = null;
+		AttributeConstraint attributeConstraint = null;
 
 		for (int i = 0; i < path.getPathCount(); i++) {
 			mode = i;
 			switch (mode) {
 			case 0:
-				workspace = (Workspace) path.getPathComponent(i);
+				informationResource = (InformationResource) path.getPathComponent(i);
 				break;
 			case 1:
-				project = (Table) path.getPathComponent(i);
+				entity = (Entity) path.getPathComponent(i);
 				break;
 			case 2:
-				document = (Atribut) path.getPathComponent(i);
+				attribute = (Attribute) path.getPathComponent(i);
 				break;
 			case 3:
-				page = (Constraint) path.getPathComponent(i);
+				attributeConstraint = (AttributeConstraint) path.getPathComponent(i);
 				break;
 
 			default:
