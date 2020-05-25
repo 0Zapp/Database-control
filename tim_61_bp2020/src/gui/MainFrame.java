@@ -23,7 +23,7 @@ import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
 @Data
-public class MainFrame extends JFrame implements Subscriber, ClipboardOwner {
+public class MainFrame extends JFrame implements Subscriber {
 
 	private static MainFrame instance = null;
 
@@ -184,9 +184,4 @@ public class MainFrame extends JFrame implements Subscriber, ClipboardOwner {
 
 	}
 
-	@Override
-	public void lostOwnership(Clipboard clipboard, Transferable contents) {
-		// TODO Auto-generated method stub
-
-	}
 }
