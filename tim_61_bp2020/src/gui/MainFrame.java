@@ -17,10 +17,13 @@ import IRTree.IRTree;
 import IRTree.IRTreeModel;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.Transferable;
 import java.util.Vector;
 
 @Data
-public class MainFrame extends JFrame implements Subscriber {
+public class MainFrame extends JFrame implements Subscriber, ClipboardOwner {
 
 	private static MainFrame instance = null;
 
@@ -85,6 +88,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		IRTree = new IRTree();
 		IRTreeModel = new IRTreeModel(new InformationResource("lol"));
 		IRTree.setModel(IRTreeModel);
+		SwingUtilities.updateComponentTreeUI(this);
 
 	}
 
@@ -170,12 +174,19 @@ public class MainFrame extends JFrame implements Subscriber {
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			System.out.println((InformationResource) notification.getData());
 			IRTreeModel.setRoot((TreeNode) notification.getData());
+			// SwingUtilities.updateComponentTreeUI(this);
 		}
 
 		else {
 			jTableTop.setModel((TableModel) notification.getData());
 			jTableBottom.setModel(appCore.getTableModel());
 		}
+
+	}
+
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		// TODO Auto-generated method stub
 
 	}
 }

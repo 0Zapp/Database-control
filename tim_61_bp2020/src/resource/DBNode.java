@@ -14,7 +14,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public abstract class DBNode implements TreeNode {
 
-	private String name;
+	protected String name;
 	@ToString.Exclude
 	private DBNode parent;
 

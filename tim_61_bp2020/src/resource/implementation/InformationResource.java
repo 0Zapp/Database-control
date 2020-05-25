@@ -25,4 +25,9 @@ public class InformationResource extends DBNodeComposite {
 		}
 	}
 
+	public String toString() {
+
+		return name;
+	}
+
 }

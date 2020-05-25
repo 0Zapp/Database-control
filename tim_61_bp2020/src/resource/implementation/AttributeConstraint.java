@@ -49,5 +49,10 @@ public class AttributeConstraint extends DBNode {
 	public boolean isLeaf() {
 		return true;
 	}
+	
+	public String toString() {
+
+		return name;
+	}
 
 }

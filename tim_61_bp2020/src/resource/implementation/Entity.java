@@ -25,6 +25,11 @@ public class Entity extends DBNodeComposite {
         }
 
     }
+    
+    public String toString() {
+
+		return name;
+	}
 
 
 }

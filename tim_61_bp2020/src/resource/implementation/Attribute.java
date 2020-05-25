@@ -36,5 +36,9 @@ public class Attribute extends DBNodeComposite {
 		}
 	}
 
-	
+	public String toString() {
+
+		return name;
+	}
+
 }
