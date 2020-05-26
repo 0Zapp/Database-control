@@ -7,6 +7,10 @@ import controller.UpdateTopController;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
+import resource.DBNode;
+import resource.DBNodeComposite;
+import resource.implementation.Attribute;
+import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 
 import javax.swing.*;
@@ -17,6 +21,8 @@ import IRTree.IRTree;
 import IRTree.IRTreeModel;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFrame extends JFrame implements Subscriber {
 
@@ -24,14 +30,14 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private AppCore appCore;
 	private JTable jTableTop;
-	private JTable jTableBottom;
+	// private JTable jTableBottom;
 	private MyMenuBar menu;
 
 	private JScrollPane scroll;
 	private JSplitPane split;
 	private JSplitPane splitTable;
 	private JScrollPane scrollTableTop;
-	private JScrollPane scrollTableBottom;
+	// private JScrollPane scrollTableBottom;
 
 	private JPanel topPanel;
 	private JPanel bottomPanel;
@@ -44,6 +50,14 @@ public class MainFrame extends JFrame implements Subscriber {
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
 	private String topTableName;
+
+	private JTabbedPane tpane;
+	private InformationResource ir;
+	private String tabName;
+
+	public String getTabName() {
+		return tabName;
+	}
 
 	public String getTopTableName() {
 		return topTableName;
@@ -122,13 +136,17 @@ public class MainFrame extends JFrame implements Subscriber {
 		topPanel.add(scrollTableTop, BorderLayout.CENTER);
 		topPanel.add(buttonPanelTop, BorderLayout.SOUTH);
 
-		jTableBottom = new JTable();
-		jTableBottom.setPreferredScrollableViewportSize(new Dimension(500, 300));
-		jTableBottom.setFillsViewportHeight(true);
-		scrollTableBottom = new JScrollPane(jTableBottom);
+		// jTableBottom = new JTable();
+		// jTableBottom.setPreferredScrollableViewportSize(new Dimension(500, 300));
+		// jTableBottom.setFillsViewportHeight(true);
+		// scrollTableBottom = new JScrollPane(jTableBottom);
+
+		tpane = new JTabbedPane(JTabbedPane.TOP);
+		tpane.setPreferredSize(new Dimension(500, 300));
+		// tpane.add(scrollTableBottom);// todo
 
 		bottomPanel = new JPanel(new BorderLayout());
-		bottomPanel.add(scrollTableBottom, BorderLayout.CENTER);
+		bottomPanel.add(tpane, BorderLayout.CENTER);
 
 		splitTable = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, bottomPanel);
 
@@ -147,7 +165,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		this.appCore = appCore;
 		this.appCore.addSubscriber(this);
 		this.jTableTop.setModel(appCore.getTableModel());
-		this.jTableBottom.setModel(appCore.getTableModel());
+		// this.jTableBottom.setModel(appCore.getTableModel());
 	}
 
 	@Override
@@ -155,6 +173,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			IRTreeModel.setRoot((TreeNode) notification.getData());
+			ir = (InformationResource) notification.getData();
 
 		} else if (notification.getCode() == NotificationCode.TABLE_NAME_CHANGE) {
 			topTableName = (String) notification.getData();
@@ -162,10 +181,17 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		else if (notification.getCode() == NotificationCode.DATA_UPDATED) {
 			jTableTop.setModel((TableModel) notification.getData());
-			jTableBottom.setModel(appCore.getTableModel());
+			// jTableBottom.setModel(appCore.getTableModel());
 
 		} else if (notification.getCode() == NotificationCode.ROW_CHANGE) {
 			appCore.readDataFromTable(topTableName);
+		} else if (notification.getCode() == NotificationCode.ADDED_TABLE) {
+			JTable jTableBottom1 = new JTable();
+			jTableBottom1.setPreferredScrollableViewportSize(new Dimension(500, 300));
+			jTableBottom1.setFillsViewportHeight(true);
+			jTableBottom1.setModel((TableModel) notification.getData());
+			JScrollPane scrollTableBottom1 = new JScrollPane(jTableBottom1);
+			tpane.add(tabName, scrollTableBottom1);
 		}
 		try {
 			jTableTop.setRowSelectionInterval(0, 0);
@@ -173,6 +199,38 @@ public class MainFrame extends JFrame implements Subscriber {
 			System.out.println("loading...");
 		}
 
+	}
+
+	public void addTables() {
+
+		tpane.removeAll();
+		List<DBNode> tables = ir.getChildren();
+
+		Entity selected = null;
+		for (DBNode d : tables) {
+			if (d.getName() == topTableName) {
+				selected = (Entity) d;
+			}
+		}
+
+		if (selected != null) {
+
+			for (DBNode a : selected.getChildren()) {
+				if (((Attribute) a).getInRelationWith() != null) {
+					Attribute related = ((Attribute) a).getInRelationWith();
+					Entity table = (Entity) related.getParent();
+					tabName = table.getName();
+					appCore.addTable(table);
+				}
+			}
+
+		}
+
+		// JTable jTableBottom1 = new JTable();
+		// jTableBottom1.setPreferredScrollableViewportSize(new Dimension(500, 300));
+		// jTableBottom1.setFillsViewportHeight(true);
+		// JScrollPane scrollTableBottom1 = new JScrollPane(jTableBottom1);
+		// tpane.add(scrollTableBottom1);
 	}
 
 	public JTable getjTableTop() {

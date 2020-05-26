@@ -9,6 +9,8 @@ public class DeleteTopController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// MainFrame.getInstance().addTables();
+
 		String[] data = MainFrame.getInstance().getSelectedTop();
 
 		MainFrame.getInstance().getAppCore().deleteRow(data);

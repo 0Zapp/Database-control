@@ -5,6 +5,7 @@ import database.DatabaseImplementation;
 import database.MSSQLrepository;
 import database.settings.Settings;
 import database.settings.SettingsImplementation;
+import gui.MainFrame;
 import gui.table.TableModel;
 //import lombok.Data;
 import observer.Notification;
@@ -12,6 +13,7 @@ import observer.Publisher;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
 import observer.implementation.PublisherImplementation;
+import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 import utils.Constants;
 
@@ -23,11 +25,13 @@ public class AppCore extends PublisherImplementation {
 	private Database database;
 	private Settings settings;
 	private TableModel tableModel;
+	private TableModel tmpModel;
 
 	public AppCore() {
 		this.settings = initSettings();
 		this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
 		tableModel = new TableModel();
+		tmpModel = new TableModel();
 	}
 
 	private Settings initSettings() {
@@ -49,10 +53,19 @@ public class AppCore extends PublisherImplementation {
 
 		tableModel.setRows(this.database.readDataFromTable(fromTable));
 		this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, fromTable));
-
+		MainFrame.getInstance().addTables();
 		// Zasto ova linija moze da ostane zakomentarisana?
 		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
 		// this.getTableModel()));
+	}
+
+	public void addTable(Entity table) {
+		tmpModel.setRows(this.database.readDataFromTable(table.getName()));
+		this.notifySubscribers(new Notification(NotificationCode.ADDED_TABLE, this.getTmpModel()));
+	}
+
+	public TableModel getTmpModel() {
+		return tmpModel;
 	}
 
 	public TableModel getTableModel() {
@@ -79,4 +92,5 @@ public class AppCore extends PublisherImplementation {
 		this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
 
 	}
+
 }

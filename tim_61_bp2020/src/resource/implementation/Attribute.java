@@ -26,6 +26,10 @@ public class Attribute extends DBNodeComposite {
 		super(name, parent);
 	}
 
+	public Attribute getInRelationWith() {
+		return inRelationWith;
+	}
+
 	public Attribute(String name, DBNode parent, AttributeType attributeType, int length) {
 		super(name, parent);
 		this.attributeType = attributeType;
