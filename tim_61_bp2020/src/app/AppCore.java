@@ -25,13 +25,11 @@ public class AppCore extends PublisherImplementation {
 	private Database database;
 	private Settings settings;
 	private TableModel tableModel;
-	private TableModel tmpModel;
 
 	public AppCore() {
 		this.settings = initSettings();
 		this.database = new DatabaseImplementation(new MSSQLrepository(this.settings));
 		tableModel = new TableModel();
-		tmpModel = new TableModel();
 	}
 
 	private Settings initSettings() {
@@ -60,12 +58,9 @@ public class AppCore extends PublisherImplementation {
 	}
 
 	public void addTable(Entity table) {
-		tmpModel.setRows(this.database.readDataFromTable(table.getName()));
-		this.notifySubscribers(new Notification(NotificationCode.ADDED_TABLE, this.getTmpModel()));
-	}
-
-	public TableModel getTmpModel() {
-		return tmpModel;
+		TableModel model = new TableModel();
+		model.setRows(this.database.readDataFromTable(table.getName()));
+		this.notifySubscribers(new Notification(NotificationCode.ADDED_TABLE, model));
 	}
 
 	public TableModel getTableModel() {

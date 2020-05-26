@@ -2,6 +2,7 @@ package gui;
 
 import app.AppCore;
 import controller.DeleteTopController;
+import controller.FaSController;
 import controller.InsertTopController;
 import controller.UpdateTopController;
 import observer.Notification;
@@ -46,6 +47,7 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton DeleteTop;
 	private JButton InsertTop;
 	private JButton UpdateTop;
+	private JButton FaS;
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
@@ -125,12 +127,15 @@ public class MainFrame extends JFrame implements Subscriber {
 		UpdateTop.addActionListener(new UpdateTopController());
 		InsertTop = new JButton("Insert");
 		InsertTop.addActionListener(new InsertTopController());
+		FaS = new JButton("Filter & Sort");
+		FaS.addActionListener(new FaSController());
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanelTop.add(DeleteTop);
 		buttonPanelTop.add(InsertTop);
 		buttonPanelTop.add(UpdateTop);
+		buttonPanelTop.add(FaS);
 
 		topPanel = new JPanel(new BorderLayout());
 		topPanel.add(scrollTableTop, BorderLayout.CENTER);

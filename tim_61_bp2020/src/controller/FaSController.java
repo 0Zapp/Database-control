@@ -1,0 +1,21 @@
+package controller;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import gui.FaSDialog;
+import gui.InsertDialog;
+import gui.MainFrame;
+
+public class FaSController implements ActionListener {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("kko");
+
+		FaSDialog dialog = new FaSDialog(MainFrame.getInstance(), "Filter & Search", true);
+		dialog.setVisible(true);
+
+	}
+
+}
