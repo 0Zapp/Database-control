@@ -318,7 +318,7 @@ public class MSSQLrepository implements Repository {
 		try {
 			this.initConnection();
 
-			String query = "SELECT";
+			String query = "SELECT filter and search";
 
 			// query = "DELETE FROM " + data[0] + " WHERE " + data[1] + "='" +
 			// data[data.length / 2 + 1] + "'";
