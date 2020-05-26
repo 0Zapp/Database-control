@@ -58,6 +58,15 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
+	private String topTableName;
+
+	public String getTopTableName() {
+		return topTableName;
+	}
+
+	public void setTopTableName(String topTableName) {
+		this.topTableName = topTableName;
+	}
 
 	private MainFrame() {
 
@@ -159,6 +168,7 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		this.pack();
 		this.setLocationRelativeTo(null);
+		topTableName = "loading..";
 
 	}
 
@@ -175,11 +185,14 @@ public class MainFrame extends JFrame implements Subscriber {
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			IRTreeModel.setRoot((TreeNode) notification.getData());
 
+		} else if (notification.getCode() == NotificationCode.TABLE_NAME_CHANGE) {
+			topTableName = (String) notification.getData();
 		}
 
-		else {
+		else if (notification.getCode() == NotificationCode.DATA_UPDATED) {
 			jTableTop.setModel((TableModel) notification.getData());
 			jTableBottom.setModel(appCore.getTableModel());
+
 		}
 
 	}
@@ -190,8 +203,10 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	public String[] getSelectedTop() {
 		jTableTop.getSelectedRow();
+		jTableTop.getName();
 		String data[] = new String[1];
-		data[0] = jTableTop.getModel().getValueAt(jTableTop.getSelectedRow(), 0).toString();
+
+		data[0] = topTableName;
 		return data;
 	}
 

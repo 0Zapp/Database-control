@@ -48,6 +48,7 @@ public class AppCore extends PublisherImplementation {
 	public void readDataFromTable(String fromTable) {
 
 		tableModel.setRows(this.database.readDataFromTable(fromTable));
+		this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, fromTable));
 
 		// Zasto ova linija moze da ostane zakomentarisana?
 		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
