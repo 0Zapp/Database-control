@@ -15,9 +15,11 @@ import IRTree.IRTree;
 import IRTree.IRTreeModel;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //@Data
-public class MainFrame extends JFrame implements Subscriber {
+public class MainFrame extends JFrame implements Subscriber, ActionListener {
 
 	private static MainFrame instance = null;
 
@@ -40,15 +42,13 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JPanel buttonPanelTop;
 	private JPanel buttonPanelBottom;
 
-	private JButton RefreshTop;
 	private JButton DeleteTop;
 	private JButton AddTop;
-	private JButton CommitTop;
+	private JButton UpdateTop;
 
-	private JButton RefreshBottom;
 	private JButton DeleteBottom;
 	private JButton AddBottom;
-	private JButton CommitBottom;
+	private JButton UpdateBottom;
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
@@ -105,17 +105,18 @@ public class MainFrame extends JFrame implements Subscriber {
 		jTableTop.setFillsViewportHeight(true);
 		scrollTableTop = new JScrollPane(jTableTop);
 
-		RefreshTop = new JButton("Refresh");
-		DeleteTop = new JButton("Delete");
-		AddTop = new JButton("Add");
-		CommitTop = new JButton("Commit");
+		DeleteTop = new JButton(" Delete");
+		DeleteTop.addActionListener(this);
+		AddTop = new JButton(" Add");
+		AddTop.addActionListener(this);
+		UpdateTop = new JButton(" Update");
+		UpdateTop.addActionListener(this);
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-		buttonPanelTop.add(RefreshTop);
 		buttonPanelTop.add(DeleteTop);
 		buttonPanelTop.add(AddTop);
-		buttonPanelTop.add(CommitTop);
+		buttonPanelTop.add(UpdateTop);
 
 		topPanel = new JPanel(new BorderLayout());
 		topPanel.add(scrollTableTop, BorderLayout.CENTER);
@@ -126,17 +127,18 @@ public class MainFrame extends JFrame implements Subscriber {
 		jTableBottom.setFillsViewportHeight(true);
 		scrollTableBottom = new JScrollPane(jTableBottom);
 
-		RefreshBottom = new JButton("Refresh");
-		DeleteBottom = new JButton("Delete");
-		AddBottom = new JButton("Add");
-		CommitBottom = new JButton("Commit");
+		DeleteBottom = new JButton("Delete ");
+		DeleteBottom.addActionListener(this);
+		AddBottom = new JButton("Add ");
+		AddBottom.addActionListener(this);
+		UpdateBottom = new JButton("Update ");
+		UpdateBottom.addActionListener(this);
 
 		buttonPanelBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-		buttonPanelBottom.add(RefreshBottom);
 		buttonPanelBottom.add(DeleteBottom);
 		buttonPanelBottom.add(AddBottom);
-		buttonPanelBottom.add(CommitBottom);
+		buttonPanelBottom.add(UpdateBottom);
 
 		bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.add(scrollTableBottom, BorderLayout.CENTER);
@@ -178,5 +180,28 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	public AppCore getAppCore() {
 		return appCore;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getActionCommand().equals(" Delete")) {
+			System.out.println("DeleteTop");
+		}
+		if (arg0.getActionCommand().equals("Delete ")) {
+			System.out.println("DeleteBottom");
+		}
+		if (arg0.getActionCommand().equals(" Add")) {
+			System.out.println("AddTop");
+		}
+		if (arg0.getActionCommand().equals("Add ")) {
+			System.out.println("AddBottom");
+		}
+		if (arg0.getActionCommand().equals(" Update")) {
+			System.out.println("UpdateTop");
+		}
+		if (arg0.getActionCommand().equals("Update ")) {
+			System.out.println("UpdateBottom");
+		}
+
 	}
 }
