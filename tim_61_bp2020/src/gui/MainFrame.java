@@ -1,11 +1,8 @@
 package gui;
 
 import app.AppCore;
-import controller.DeleteBottomController;
 import controller.DeleteTopController;
-import controller.InsertBottomController;
 import controller.InsertTopController;
-import controller.UpdateBottomController;
 import controller.UpdateTopController;
 import observer.Notification;
 import observer.Subscriber;
@@ -28,9 +25,6 @@ public class MainFrame extends JFrame implements Subscriber {
 	private AppCore appCore;
 	private JTable jTableTop;
 	private JTable jTableBottom;
-	private JScrollPane jsp;
-	private JPanel bottomStatus;
-
 	private MyMenuBar menu;
 
 	private JScrollPane scroll;
@@ -42,15 +36,10 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JPanel topPanel;
 	private JPanel bottomPanel;
 	private JPanel buttonPanelTop;
-	private JPanel buttonPanelBottom;
 
 	private JButton DeleteTop;
 	private JButton InsertTop;
 	private JButton UpdateTop;
-
-	private JButton DeleteBottom;
-	private JButton InsertBottom;
-	private JButton UpdateBottom;
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
@@ -138,22 +127,8 @@ public class MainFrame extends JFrame implements Subscriber {
 		jTableBottom.setFillsViewportHeight(true);
 		scrollTableBottom = new JScrollPane(jTableBottom);
 
-		DeleteBottom = new JButton("Delete");
-		DeleteBottom.addActionListener(new DeleteBottomController());
-		UpdateBottom = new JButton("Update");
-		UpdateBottom.addActionListener(new UpdateBottomController());
-		InsertBottom = new JButton("Insert");
-		InsertBottom.addActionListener(new InsertBottomController());
-
-		buttonPanelBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-		buttonPanelBottom.add(DeleteBottom);
-		buttonPanelBottom.add(InsertBottom);
-		buttonPanelBottom.add(UpdateBottom);
-
 		bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.add(scrollTableBottom, BorderLayout.CENTER);
-		bottomPanel.add(buttonPanelBottom, BorderLayout.SOUTH);
 
 		splitTable = new JSplitPane(JSplitPane.VERTICAL_SPLIT, topPanel, bottomPanel);
 
@@ -191,9 +166,17 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		} else if (notification.getCode() == NotificationCode.ROW_DELETED) {
 			appCore.readDataFromTable(topTableName);
-
+		}
+		try {
+			jTableTop.setRowSelectionInterval(0, 0);
+		} catch (Exception e) {
+			System.out.println("loading...");
 		}
 
+	}
+
+	public JTable getjTableTop() {
+		return jTableTop;
 	}
 
 	public AppCore getAppCore() {
