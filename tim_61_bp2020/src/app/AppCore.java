@@ -65,6 +65,6 @@ public class AppCore extends PublisherImplementation {
 
 	public void deleteRow(String[] data) {
 		this.database.deleteRow(data);
-		this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED, 1));// todo
+		this.notifySubscribers(new Notification(NotificationCode.ROW_DELETED, 1));
 	}
 }

@@ -193,6 +193,9 @@ public class MainFrame extends JFrame implements Subscriber {
 			jTableTop.setModel((TableModel) notification.getData());
 			jTableBottom.setModel(appCore.getTableModel());
 
+		} else if (notification.getCode() == NotificationCode.ROW_DELETED) {
+			appCore.readDataFromTable(topTableName);
+
 		}
 
 	}
@@ -202,11 +205,15 @@ public class MainFrame extends JFrame implements Subscriber {
 	}
 
 	public String[] getSelectedTop() {
-		jTableTop.getSelectedRow();
-		jTableTop.getName();
-		String data[] = new String[1];
+		int columnCount = jTableTop.getColumnCount();
+		String data[] = new String[1 + columnCount * 2];
 
 		data[0] = topTableName;
+		for (int i = 0; i < columnCount; i++) {
+			data[i + 1] = jTableTop.getColumnName(i);
+			data[i + 1 + columnCount] = (String) jTableTop.getValueAt(jTableTop.getSelectedRow(), i);
+		}
+
 		return data;
 	}
 

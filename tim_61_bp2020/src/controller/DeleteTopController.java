@@ -10,8 +10,8 @@ public class DeleteTopController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String[] data = MainFrame.getInstance().getSelectedTop();
-		System.out.println(data[0]);
-		// MainFrame.getInstance().getAppCore().deleteRow(data);
+
+		MainFrame.getInstance().getAppCore().deleteRow(data);
 		// System.out.println("Delete top");
 
 	}

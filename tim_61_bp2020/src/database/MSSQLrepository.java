@@ -191,18 +191,25 @@ public class MSSQLrepository implements Repository {
 
 	@Override
 	public void deleteRow(String[] data) {
+
 		try {
 			this.initConnection();
 
-			String query = "DELETE FROM " + data[0] + " WHERE " + data[1];
-			// up to here
+			String query = "DELETE FROM " + data[0] + " WHERE " + data[1] + "='" + data[data.length / 2 + 1] + "'";
+			for (int i = 2; i <= data.length / 2; i++) {
+				query += " AND " + data[i] + "='";
+				query += data[data.length / 2 + i] + "'";
+			}
+
+			System.out.println(query);
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			ResultSet rs = preparedStatement.executeQuery();
+			preparedStatement.executeUpdate();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("upit se ne moze izvrsiti zbog konflikta");
 		} finally {
 			this.closeConnection();
 		}
+
 	}
 }
