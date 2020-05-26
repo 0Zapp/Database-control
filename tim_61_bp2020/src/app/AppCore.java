@@ -62,4 +62,8 @@ public class AppCore extends PublisherImplementation {
 		this.tableModel = tableModel;
 	}
 
+	public void deleteRow(String[] data) {
+		this.database.deleteRow(data);
+		this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED, 1));// todo
+	}
 }

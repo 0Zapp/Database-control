@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface Repository {
 
-    DBNode getSchema();
+	DBNode getSchema();
 
-    List<Row> get(String from);
+	List<Row> get(String from);
+
+	void deleteRow(String[] data);
 }

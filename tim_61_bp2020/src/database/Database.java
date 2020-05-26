@@ -5,11 +5,12 @@ import resource.data.Row;
 
 import java.util.List;
 
-public interface Database{
+public interface Database {
 
-    DBNode loadResource();
+	DBNode loadResource();
 
-    List<Row> readDataFromTable(String tableName);
+	void deleteRow(String[] data);
 
+	List<Row> readDataFromTable(String tableName);
 
 }

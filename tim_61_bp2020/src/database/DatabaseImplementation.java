@@ -27,4 +27,10 @@ public class DatabaseImplementation implements Database {
 	public List<Row> readDataFromTable(String tableName) {
 		return repository.get(tableName);
 	}
+
+	@Override
+	public void deleteRow(String[] data) {
+		repository.deleteRow(data);
+
+	}
 }

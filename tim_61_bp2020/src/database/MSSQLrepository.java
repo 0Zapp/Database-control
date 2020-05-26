@@ -188,4 +188,21 @@ public class MSSQLrepository implements Repository {
 
 		return rows;
 	}
+
+	@Override
+	public void deleteRow(String[] data) {
+		try {
+			this.initConnection();
+
+			String query = "DELETE FROM " + data[0] + " WHERE " + data[1];
+			// up to here
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+	}
 }

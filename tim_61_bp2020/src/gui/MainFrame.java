@@ -1,6 +1,12 @@
 package gui;
 
 import app.AppCore;
+import controller.CreateBottomController;
+import controller.CreateTopController;
+import controller.DeleteBottomController;
+import controller.DeleteTopController;
+import controller.UpdateBottomController;
+import controller.UpdateTopController;
 //import lombok.Data;
 import observer.Notification;
 import observer.Subscriber;
@@ -19,7 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 //@Data
-public class MainFrame extends JFrame implements Subscriber, ActionListener {
+public class MainFrame extends JFrame implements Subscriber {
 
 	private static MainFrame instance = null;
 
@@ -43,11 +49,11 @@ public class MainFrame extends JFrame implements Subscriber, ActionListener {
 	private JPanel buttonPanelBottom;
 
 	private JButton DeleteTop;
-	private JButton AddTop;
+	private JButton CreateTop;
 	private JButton UpdateTop;
 
 	private JButton DeleteBottom;
-	private JButton AddBottom;
+	private JButton CreateBottom;
 	private JButton UpdateBottom;
 
 	private IRTreeModel IRTreeModel;
@@ -105,17 +111,17 @@ public class MainFrame extends JFrame implements Subscriber, ActionListener {
 		jTableTop.setFillsViewportHeight(true);
 		scrollTableTop = new JScrollPane(jTableTop);
 
-		DeleteTop = new JButton(" Delete");
-		DeleteTop.addActionListener(this);
-		AddTop = new JButton(" Add");
-		AddTop.addActionListener(this);
-		UpdateTop = new JButton(" Update");
-		UpdateTop.addActionListener(this);
+		DeleteTop = new JButton("Delete");
+		DeleteTop.addActionListener(new DeleteTopController());
+		CreateTop = new JButton("Create");
+		CreateTop.addActionListener(new CreateTopController());
+		UpdateTop = new JButton("Update");
+		UpdateTop.addActionListener(new UpdateTopController());
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanelTop.add(DeleteTop);
-		buttonPanelTop.add(AddTop);
+		buttonPanelTop.add(CreateTop);
 		buttonPanelTop.add(UpdateTop);
 
 		topPanel = new JPanel(new BorderLayout());
@@ -127,17 +133,17 @@ public class MainFrame extends JFrame implements Subscriber, ActionListener {
 		jTableBottom.setFillsViewportHeight(true);
 		scrollTableBottom = new JScrollPane(jTableBottom);
 
-		DeleteBottom = new JButton("Delete ");
-		DeleteBottom.addActionListener(this);
-		AddBottom = new JButton("Add ");
-		AddBottom.addActionListener(this);
-		UpdateBottom = new JButton("Update ");
-		UpdateBottom.addActionListener(this);
+		DeleteBottom = new JButton("Delete");
+		DeleteBottom.addActionListener(new DeleteBottomController());
+		CreateBottom = new JButton("Create");
+		CreateBottom.addActionListener(new CreateBottomController());
+		UpdateBottom = new JButton("Update");
+		UpdateBottom.addActionListener(new UpdateBottomController());
 
 		buttonPanelBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanelBottom.add(DeleteBottom);
-		buttonPanelBottom.add(AddBottom);
+		buttonPanelBottom.add(CreateBottom);
 		buttonPanelBottom.add(UpdateBottom);
 
 		bottomPanel = new JPanel(new BorderLayout());
@@ -182,26 +188,11 @@ public class MainFrame extends JFrame implements Subscriber, ActionListener {
 		return appCore;
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if (arg0.getActionCommand().equals(" Delete")) {
-			System.out.println("DeleteTop");
-		}
-		if (arg0.getActionCommand().equals("Delete ")) {
-			System.out.println("DeleteBottom");
-		}
-		if (arg0.getActionCommand().equals(" Add")) {
-			System.out.println("AddTop");
-		}
-		if (arg0.getActionCommand().equals("Add ")) {
-			System.out.println("AddBottom");
-		}
-		if (arg0.getActionCommand().equals(" Update")) {
-			System.out.println("UpdateTop");
-		}
-		if (arg0.getActionCommand().equals("Update ")) {
-			System.out.println("UpdateBottom");
-		}
-
+	public String[] getSelectedTop() {
+		jTableTop.getSelectedRow();
+		String data[] = new String[1];
+		data[0] = jTableTop.getModel().getValueAt(jTableTop.getSelectedRow(), 0).toString();
+		return data;
 	}
+
 }
