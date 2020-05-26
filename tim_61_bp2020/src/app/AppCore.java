@@ -74,8 +74,8 @@ public class AppCore extends PublisherImplementation {
 
 	}
 
-	public void UpdateRow(String[] data) {
-		this.database.UpdateRow(data);
+	public void UpdateRow(String[] data, String[] original) {
+		this.database.UpdateRow(data, original);
 		this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
 
 	}

@@ -41,8 +41,8 @@ public class DatabaseImplementation implements Database {
 	}
 
 	@Override
-	public void UpdateRow(String[] data) {
-		repository.updateRow(data);
+	public void UpdateRow(String[] data, String[] original) {
+		repository.updateRow(data, original);
 
 	}
 }

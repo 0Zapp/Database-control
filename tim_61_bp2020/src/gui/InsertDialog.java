@@ -76,13 +76,13 @@ public class InsertDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (int i = 0; i < cc; i++) {
-
-			String text = ((JTextField) listTF.get(i)).getText();
-			data[data.length / 2 + 1 + i] = text;
-		}
 
 		if (e.getActionCommand().equals("OK")) {
+			for (int i = 0; i < cc; i++) {
+
+				String text = ((JTextField) listTF.get(i)).getText();
+				data[data.length / 2 + 1 + i] = text;
+			}
 			System.out.println("OK");
 			MainFrame.getInstance().getAppCore().InsertRow(data);
 		}

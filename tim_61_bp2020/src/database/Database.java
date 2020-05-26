@@ -15,6 +15,6 @@ public interface Database {
 
 	void InsertRow(String[] data);
 
-	void UpdateRow(String[] data);
+	void UpdateRow(String[] data, String[] original);
 
 }

@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,6 +19,9 @@ import javax.swing.JTextField;
 public class UpdateDialog extends JDialog implements ActionListener {
 
 	String[] data;
+	String[] original;
+	int cc;
+	ArrayList<JTextField> listTF;
 
 	public UpdateDialog(Frame parent, String title, boolean modal) {
 
@@ -35,11 +39,14 @@ public class UpdateDialog extends JDialog implements ActionListener {
 		try {
 
 			JPanel grid = new JPanel(new GridLayout(0, 2));
-			int cc = MainFrame.getInstance().getjTableTop().getColumnCount();
+			cc = MainFrame.getInstance().getjTableTop().getColumnCount();
 			data = MainFrame.getInstance().getSelectedTop();
+			original = data.clone();
+			listTF = new ArrayList<JTextField>();
 			for (int i = 0; i < cc; i++) {
 				JLabel label = new JLabel(data[i + 1]);
 				JTextField tf = new JTextField(data[data.length / 2 + 1 + i]);
+				listTF.add(tf);
 				grid.add(label);
 				grid.add(tf);
 			}
@@ -66,8 +73,13 @@ public class UpdateDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand().equals("OK")) {
+			for (int i = 0; i < cc; i++) {
+
+				String text = ((JTextField) listTF.get(i)).getText();
+				data[data.length / 2 + 1 + i] = text;
+			}
 			System.out.println("OK");
-			MainFrame.getInstance().getAppCore().UpdateRow(data);
+			MainFrame.getInstance().getAppCore().UpdateRow(data, original);
 		}
 
 		setVisible(false); // you can't see me!

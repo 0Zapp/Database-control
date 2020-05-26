@@ -13,7 +13,7 @@ public interface Repository {
 
 	void deleteRow(String[] data);
 
-	void updateRow(String[] data);
+	void updateRow(String[] data, String[] original);
 
 	void InsertRow(String[] data);
 }
