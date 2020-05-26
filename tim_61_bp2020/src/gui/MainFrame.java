@@ -164,7 +164,7 @@ public class MainFrame extends JFrame implements Subscriber {
 			jTableTop.setModel((TableModel) notification.getData());
 			jTableBottom.setModel(appCore.getTableModel());
 
-		} else if (notification.getCode() == NotificationCode.ROW_DELETED) {
+		} else if (notification.getCode() == NotificationCode.ROW_CHANGE) {
 			appCore.readDataFromTable(topTableName);
 		}
 		try {

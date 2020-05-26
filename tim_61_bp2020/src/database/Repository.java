@@ -12,4 +12,8 @@ public interface Repository {
 	List<Row> get(String from);
 
 	void deleteRow(String[] data);
+
+	void updateRow(String[] data);
+
+	void InsertRow(String[] data);
 }

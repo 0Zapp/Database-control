@@ -213,4 +213,53 @@ public class MSSQLrepository implements Repository {
 
 	}
 
+	public void InsertRow(String[] data) {
+
+		try {
+			this.initConnection();
+
+			String query = "INSERT INTO " + data[0] + "(" + data[1];
+			for (int i = 2; i <= data.length / 2; i++) {
+				query += ", " + data[i];
+			}
+			query += ") values ('" + data[data.length / 2 + 1];
+			for (int i = data.length / 2 + 2; i < data.length; i++) {
+				query += "','" + data[i];
+			}
+			query += "')";
+			System.out.println(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("upit se ne moze izvrsiti zbog konflikta");
+		} finally {
+			this.closeConnection();
+		}
+
+	}
+
+	public void updateRow(String[] data) {
+
+		try {
+			this.initConnection();
+
+			String query = "UPDATE " + data[0] + " SET " + data[1] + "='" + data[data.length / 2 + 1] + "'";
+			for (int i = 2; i <= data.length / 2; i++) {
+				query += " AND " + data[i] + "='";
+				query += data[data.length / 2 + i] + "'";
+			}
+
+			System.out.println(query);
+			// PreparedStatement preparedStatement = connection.prepareStatement(query);
+			// preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("upit se ne moze izvrsiti zbog konflikta");
+		} finally {
+			this.closeConnection();
+		}
+
+	}
+
 }

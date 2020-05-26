@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +24,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class InsertDialog extends JDialog implements ActionListener {
+
+	String[] data;
+	int cc;
+	ArrayList<JTextField> listTF;
 
 	public InsertDialog(Frame parent, String title, boolean modal) {
 
@@ -40,11 +45,13 @@ public class InsertDialog extends JDialog implements ActionListener {
 		try {
 
 			JPanel grid = new JPanel(new GridLayout(0, 2));
-			int cc = MainFrame.getInstance().getjTableTop().getColumnCount();
-			String[] data = MainFrame.getInstance().getSelectedTop();
+			cc = MainFrame.getInstance().getjTableTop().getColumnCount();
+			data = MainFrame.getInstance().getSelectedTop();
+			listTF = new ArrayList<JTextField>();
 			for (int i = 0; i < cc; i++) {
 				JLabel label = new JLabel(data[i + 1]);
 				JTextField tf = new JTextField();
+				listTF.add(tf);
 				grid.add(label);
 				grid.add(tf);
 			}
@@ -69,9 +76,15 @@ public class InsertDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		for (int i = 0; i < cc; i++) {
+
+			String text = ((JTextField) listTF.get(i)).getText();
+			data[data.length / 2 + 1 + i] = text;
+		}
 
 		if (e.getActionCommand().equals("OK")) {
 			System.out.println("OK");
+			MainFrame.getInstance().getAppCore().InsertRow(data);
 		}
 
 		setVisible(false); // you can't see me!

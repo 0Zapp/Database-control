@@ -13,4 +13,8 @@ public interface Database {
 
 	List<Row> readDataFromTable(String tableName);
 
+	void InsertRow(String[] data);
+
+	void UpdateRow(String[] data);
+
 }

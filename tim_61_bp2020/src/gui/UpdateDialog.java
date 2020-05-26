@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 
 public class UpdateDialog extends JDialog implements ActionListener {
 
+	String[] data;
+
 	public UpdateDialog(Frame parent, String title, boolean modal) {
 
 		super(parent, title, modal);
@@ -34,7 +36,7 @@ public class UpdateDialog extends JDialog implements ActionListener {
 
 			JPanel grid = new JPanel(new GridLayout(0, 2));
 			int cc = MainFrame.getInstance().getjTableTop().getColumnCount();
-			String[] data = MainFrame.getInstance().getSelectedTop();
+			data = MainFrame.getInstance().getSelectedTop();
 			for (int i = 0; i < cc; i++) {
 				JLabel label = new JLabel(data[i + 1]);
 				JTextField tf = new JTextField(data[data.length / 2 + 1 + i]);
@@ -65,6 +67,7 @@ public class UpdateDialog extends JDialog implements ActionListener {
 
 		if (e.getActionCommand().equals("OK")) {
 			System.out.println("OK");
+			MainFrame.getInstance().getAppCore().UpdateRow(data);
 		}
 
 		setVisible(false); // you can't see me!

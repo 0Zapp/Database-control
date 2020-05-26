@@ -33,4 +33,16 @@ public class DatabaseImplementation implements Database {
 		repository.deleteRow(data);
 
 	}
+
+	@Override
+	public void InsertRow(String[] data) {
+		repository.InsertRow(data);
+
+	}
+
+	@Override
+	public void UpdateRow(String[] data) {
+		repository.updateRow(data);
+
+	}
 }
