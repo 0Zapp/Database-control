@@ -18,6 +18,10 @@ public class Attribute extends DBNodeComposite {
 	private int length;
 	private Attribute inRelationWith;
 
+	public void setInRelationWith(Attribute inRelationWith) {
+		this.inRelationWith = inRelationWith;
+	}
+
 	public Attribute(String name, DBNode parent) {
 		super(name, parent);
 	}

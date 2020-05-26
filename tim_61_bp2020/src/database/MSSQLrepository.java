@@ -16,6 +16,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 //@Data
 public class MSSQLrepository implements Repository {
 
@@ -57,6 +59,7 @@ public class MSSQLrepository implements Repository {
 
 			String tableType[] = { "TABLE" };
 			ResultSet tables = metaData.getTables(connection.getCatalog(), null, null, tableType);
+			ArrayList<ResultSet> allfk = new ArrayList<ResultSet>();
 
 			while (tables.next()) {
 
@@ -67,11 +70,13 @@ public class MSSQLrepository implements Repository {
 				// Koje atribute imaja ova tabela?
 
 				ResultSet columns = metaData.getColumns(connection.getCatalog(), null, tableName, null);
+				ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
+				allfk.add(foreignKeys);
 
 				while (columns.next()) {
 
 					ResultSet primaryKeys = metaData.getPrimaryKeys(connection.getCatalog(), null, newTable.getName());
-					ResultSet foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
+					foreignKeys = metaData.getImportedKeys(connection.getCatalog(), null, newTable.getName());
 
 					String columnName = columns.getString("COLUMN_NAME");
 					String columnType = columns.getString("TYPE_NAME");
@@ -143,6 +148,44 @@ public class MSSQLrepository implements Repository {
 
 				}
 
+			}
+
+			ArrayList<DBNode> entities = (ArrayList<DBNode>) ir.getChildren();
+
+			for (ResultSet rs : allfk) {
+				while (rs.next()) {
+					String TableName = rs.getString("FKTABLE_NAME");
+					String ColumnName = rs.getString("FKCOLUMN_NAME");
+					String pkTableName = rs.getString("PKTABLE_NAME");
+					String pkColumnName = rs.getString("PKCOLUMN_NAME");
+
+					Entity table1 = null;
+					Entity table2 = null;
+					Attribute attribute1 = null;
+					Attribute attribute2 = null;
+
+					for (DBNode d : entities) {
+						if (((Entity) d).getName().equals(TableName)) {
+							table1 = (Entity) d;
+							for (DBNode a : table1.getChildren()) {
+								if (a.getName().equals(ColumnName)) {
+									attribute1 = (Attribute) a;
+								}
+							}
+						}
+						if (((Entity) d).getName().equals(pkTableName)) {
+							table2 = (Entity) d;
+							for (DBNode a : table2.getChildren()) {
+								if (a.getName().equals(pkColumnName)) {
+									attribute2 = (Attribute) a;
+								}
+							}
+						}
+					}
+
+					attribute1.setInRelationWith(attribute2);
+
+				}
 			}
 
 			return ir;
