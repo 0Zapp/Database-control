@@ -11,7 +11,6 @@ public class FaSController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("kko");
 
 		FaSDialog dialog = new FaSDialog(MainFrame.getInstance(), "Filter & Search", true);
 		dialog.setVisible(true);

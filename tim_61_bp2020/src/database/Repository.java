@@ -16,4 +16,6 @@ public interface Repository {
 	void updateRow(String[] data, String[] original);
 
 	void InsertRow(String[] data);
+
+	void FaS(String[] data);
 }

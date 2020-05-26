@@ -88,4 +88,10 @@ public class AppCore extends PublisherImplementation {
 
 	}
 
+	public void FaS(String[] data) {
+		this.database.FaS(data);
+		this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
+		
+	}
+
 }

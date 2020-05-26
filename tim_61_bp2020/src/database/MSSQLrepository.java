@@ -200,39 +200,6 @@ public class MSSQLrepository implements Repository {
 	}
 
 	@Override
-	public List<Row> get(String from) {
-
-		List<Row> rows = new ArrayList<>();
-
-		try {
-			this.initConnection();
-
-			String query = "SELECT * FROM " + from;
-			PreparedStatement preparedStatement = connection.prepareStatement(query);
-			ResultSet rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-
-				Row row = new Row();
-				row.setName(from);
-
-				ResultSetMetaData resultSetMetaData = rs.getMetaData();
-				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
-					row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
-				}
-				rows.add(row);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			this.closeConnection();
-		}
-
-		return rows;
-	}
-
-	@Override
 	public void deleteRow(String[] data) {
 
 		try {
@@ -305,6 +272,66 @@ public class MSSQLrepository implements Repository {
 
 		} catch (Exception e) {
 			// e.printStackTrace();
+			System.out.println("upit se ne moze izvrsiti zbog konflikta");
+		} finally {
+			this.closeConnection();
+		}
+
+	}
+
+	@Override
+	public List<Row> get(String from) {
+
+		List<Row> rows = new ArrayList<>();
+
+		try {
+			this.initConnection();
+
+			String query = "SELECT * FROM " + from;
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				Row row = new Row();
+				row.setName(from);
+
+				ResultSetMetaData resultSetMetaData = rs.getMetaData();
+				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+					row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+				}
+				rows.add(row);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+
+		return rows;
+	}
+
+	@Override
+	public void FaS(String[] data) {
+
+		try {
+			this.initConnection();
+
+			String query = "SELECT";
+
+			// query = "DELETE FROM " + data[0] + " WHERE " + data[1] + "='" +
+			// data[data.length / 2 + 1] + "'";
+			// for (int i = 2; i <= data.length / 2; i++) {
+			// query += " AND " + data[i] + "='";
+			// query += data[data.length / 2 + i] + "'";
+			// }
+
+			System.out.println(query);
+			// PreparedStatement preparedStatement = connection.prepareStatement(query);
+			// preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
 			System.out.println("upit se ne moze izvrsiti zbog konflikta");
 		} finally {
 			this.closeConnection();

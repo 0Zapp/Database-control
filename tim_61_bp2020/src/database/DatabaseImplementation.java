@@ -45,4 +45,10 @@ public class DatabaseImplementation implements Database {
 		repository.updateRow(data, original);
 
 	}
+
+	@Override
+	public void FaS(String[] data) {
+		repository.FaS(data);
+		
+	}
 }

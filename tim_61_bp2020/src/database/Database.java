@@ -17,4 +17,6 @@ public interface Database {
 
 	void UpdateRow(String[] data, String[] original);
 
+	void FaS(String[] data);
+
 }

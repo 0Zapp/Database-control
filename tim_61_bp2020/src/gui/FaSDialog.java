@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +20,6 @@ import javax.swing.JTextField;
 public class FaSDialog extends JDialog implements ActionListener {
 
 	String[] data;
-	String[] original;
 	int cc;
 	ArrayList<JTextField> listTF;
 
@@ -31,24 +31,30 @@ public class FaSDialog extends JDialog implements ActionListener {
 		int screenHeight = screenSize.height;
 		int screenWidth = screenSize.width;
 
-		setSize((screenWidth / 10) * 3, (screenHeight / 10) * 3);
+		setSize((screenWidth / 10) * 4, (screenHeight / 10) * 3);
 		setLocationRelativeTo(null);
 
 		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try {
-
-			JPanel grid = new JPanel(new GridLayout(0, 2));
+			listTF = new ArrayList<JTextField>();
+			JPanel grid = new JPanel(new GridLayout(0, 5));
 			cc = MainFrame.getInstance().getjTableTop().getColumnCount();
 			data = MainFrame.getInstance().getSelectedTop();
-			original = data.clone();
-			listTF = new ArrayList<JTextField>();
 			for (int i = 0; i < cc; i++) {
 				JLabel label = new JLabel(data[i + 1]);
-				JTextField tf = new JTextField(data[data.length / 2 + 1 + i]);
-				listTF.add(tf);
 				grid.add(label);
+				String f[] = { "Prikazi", "Ne prikazuj" };
+				JComboBox<String> filter = new JComboBox<String>(f);
+				grid.add(filter);
+				String s[] = { "ne sortiraj", "Asc", "Desc" };
+				JComboBox<String> sort = new JComboBox<String>(s);
+				grid.add(sort);
+				JLabel prioritet = new JLabel("Priritet Sortiranja, 1>2:");
+				grid.add(prioritet);
+				JTextField tf = new JTextField();
 				grid.add(tf);
+				listTF.add(tf);
 			}
 
 			JButton OK = new JButton("OK");
@@ -79,7 +85,7 @@ public class FaSDialog extends JDialog implements ActionListener {
 				data[data.length / 2 + 1 + i] = text;
 			}
 			System.out.println("OK");
-			MainFrame.getInstance().getAppCore().UpdateRow(data, original);
+			MainFrame.getInstance().getAppCore().FaS(data);
 		}
 
 		setVisible(false); // you can't see me!
