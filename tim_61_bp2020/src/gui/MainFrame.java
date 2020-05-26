@@ -1,13 +1,12 @@
 package gui;
 
 import app.AppCore;
-import controller.CreateBottomController;
-import controller.CreateTopController;
 import controller.DeleteBottomController;
 import controller.DeleteTopController;
+import controller.InsertBottomController;
+import controller.InsertTopController;
 import controller.UpdateBottomController;
 import controller.UpdateTopController;
-//import lombok.Data;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
@@ -21,10 +20,7 @@ import IRTree.IRTree;
 import IRTree.IRTreeModel;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-//@Data
 public class MainFrame extends JFrame implements Subscriber {
 
 	private static MainFrame instance = null;
@@ -49,11 +45,11 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JPanel buttonPanelBottom;
 
 	private JButton DeleteTop;
-	private JButton CreateTop;
+	private JButton InsertTop;
 	private JButton UpdateTop;
 
 	private JButton DeleteBottom;
-	private JButton CreateBottom;
+	private JButton InsertBottom;
 	private JButton UpdateBottom;
 
 	private IRTreeModel IRTreeModel;
@@ -122,15 +118,15 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		DeleteTop = new JButton("Delete");
 		DeleteTop.addActionListener(new DeleteTopController());
-		CreateTop = new JButton("Create");
-		CreateTop.addActionListener(new CreateTopController());
 		UpdateTop = new JButton("Update");
 		UpdateTop.addActionListener(new UpdateTopController());
+		InsertTop = new JButton("Insert");
+		InsertTop.addActionListener(new InsertTopController());
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanelTop.add(DeleteTop);
-		buttonPanelTop.add(CreateTop);
+		buttonPanelTop.add(InsertTop);
 		buttonPanelTop.add(UpdateTop);
 
 		topPanel = new JPanel(new BorderLayout());
@@ -144,15 +140,15 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		DeleteBottom = new JButton("Delete");
 		DeleteBottom.addActionListener(new DeleteBottomController());
-		CreateBottom = new JButton("Create");
-		CreateBottom.addActionListener(new CreateBottomController());
 		UpdateBottom = new JButton("Update");
 		UpdateBottom.addActionListener(new UpdateBottomController());
+		InsertBottom = new JButton("Insert");
+		InsertBottom.addActionListener(new InsertBottomController());
 
 		buttonPanelBottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		buttonPanelBottom.add(DeleteBottom);
-		buttonPanelBottom.add(CreateBottom);
+		buttonPanelBottom.add(InsertBottom);
 		buttonPanelBottom.add(UpdateBottom);
 
 		bottomPanel = new JPanel(new BorderLayout());

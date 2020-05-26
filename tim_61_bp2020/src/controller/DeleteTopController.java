@@ -12,7 +12,6 @@ public class DeleteTopController implements ActionListener {
 		String[] data = MainFrame.getInstance().getSelectedTop();
 
 		MainFrame.getInstance().getAppCore().deleteRow(data);
-		// System.out.println("Delete top");
 
 	}
 

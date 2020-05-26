@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import gui.MainFrame;
 
-public class DeleteBottomController implements ActionListener {
+public class InsertTopController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -14,5 +14,6 @@ public class DeleteBottomController implements ActionListener {
 		MainFrame.getInstance().getAppCore().deleteRow(data);
 
 	}
+
 
 }

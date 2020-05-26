@@ -3,11 +3,15 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import gui.MainFrame;
+
 public class UpdateBottomController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Update bottom");
+		String[] data = MainFrame.getInstance().getSelectedTop();
+
+		MainFrame.getInstance().getAppCore().deleteRow(data);
 
 	}
 

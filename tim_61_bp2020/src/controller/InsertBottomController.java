@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import gui.MainFrame;
 
-public class DeleteBottomController implements ActionListener {
+public class InsertBottomController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
