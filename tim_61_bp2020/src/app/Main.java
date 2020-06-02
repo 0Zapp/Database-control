@@ -1,6 +1,7 @@
 package app;
 
 import gui.MainFrame;
+
 import resource.data.Row;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class Main {
 		mainFrame.setAppCore(appCore);
 
 		mainFrame.getAppCore().loadResource();
-		mainFrame.getAppCore().readDataFromTable("COUNTRIES");
+		//mainFrame.getAppCore().readDataFromTable("COUNTRIES");
 
 	}
 

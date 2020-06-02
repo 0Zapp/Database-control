@@ -25,6 +25,7 @@ public class AppCore extends PublisherImplementation {
 	private Database database;
 	private Settings settings;
 	private TableModel tableModel;
+	private Entity mainTable;
 
 	public AppCore() {
 		this.settings = initSettings();
@@ -47,10 +48,13 @@ public class AppCore extends PublisherImplementation {
 		this.notifySubscribers(new Notification(NotificationCode.RESOURCE_LOADED, ir));
 	}
 
-	public void readDataFromTable(String fromTable) {
+	public void readDataFromTable(Entity fromTable) {
 
-		tableModel.setRows(this.database.readDataFromTable(fromTable));
-		this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, fromTable));
+		if(fromTable != null) {
+			mainTable = fromTable;
+		}
+		tableModel.setRows(this.database.readDataFromTable(mainTable.toString()));
+		this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, mainTable.toString()));
 		MainFrame.getInstance().addTables();
 		// Zasto ova linija moze da ostane zakomentarisana?
 		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
@@ -69,6 +73,10 @@ public class AppCore extends PublisherImplementation {
 
 	public void setTableModel(TableModel tableModel) {
 		this.tableModel = tableModel;
+	}
+	
+	public Entity getMainTable() {
+		return mainTable;
 	}
 
 	public void deleteRow(String[] data) {

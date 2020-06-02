@@ -4,6 +4,7 @@ import app.AppCore;
 import controller.DeleteTopController;
 import controller.FaSController;
 import controller.InsertTopController;
+import controller.SearchTopController;
 import controller.UpdateTopController;
 import observer.Notification;
 import observer.Subscriber;
@@ -48,6 +49,7 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton InsertTop;
 	private JButton UpdateTop;
 	private JButton FaS;
+	private JButton SearchTop;
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
@@ -59,14 +61,6 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	public String getTabName() {
 		return tabName;
-	}
-
-	public String getTopTableName() {
-		return topTableName;
-	}
-
-	public void setTopTableName(String topTableName) {
-		this.topTableName = topTableName;
 	}
 
 	private MainFrame() {
@@ -129,9 +123,12 @@ public class MainFrame extends JFrame implements Subscriber {
 		InsertTop.addActionListener(new InsertTopController());
 		FaS = new JButton("Filter & Sort");
 		FaS.addActionListener(new FaSController());
+		SearchTop = new JButton("Search");
+		SearchTop.addActionListener(new SearchTopController());
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
+		buttonPanelTop.add(SearchTop);
 		buttonPanelTop.add(DeleteTop);
 		buttonPanelTop.add(InsertTop);
 		buttonPanelTop.add(UpdateTop);
@@ -179,6 +176,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			IRTreeModel.setRoot((TreeNode) notification.getData());
 			ir = (InformationResource) notification.getData();
+			appCore.readDataFromTable((Entity)IRTreeModel.getChild(IRTreeModel.getRoot(), 0));
 
 		} else if (notification.getCode() == NotificationCode.TABLE_NAME_CHANGE) {
 			topTableName = (String) notification.getData();
@@ -189,7 +187,8 @@ public class MainFrame extends JFrame implements Subscriber {
 			// jTableBottom.setModel(appCore.getTableModel());
 
 		} else if (notification.getCode() == NotificationCode.ROW_CHANGE) {
-			appCore.readDataFromTable(topTableName);
+			// appCore.readDataFromTable(topTableName);
+			appCore.readDataFromTable(null);
 		} else if (notification.getCode() == NotificationCode.ADDED_TABLE) {
 			JTable jTableBottom1 = new JTable();
 			jTableBottom1.setPreferredScrollableViewportSize(new Dimension(500, 300));

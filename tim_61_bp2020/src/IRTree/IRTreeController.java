@@ -49,7 +49,7 @@ public class IRTreeController implements TreeSelectionListener {
 
 		if (entity != null) {
 			MainFrame mainFrame = MainFrame.getInstance();
-			mainFrame.getAppCore().readDataFromTable(entity.toString());
+			mainFrame.getAppCore().readDataFromTable(entity);
 		}
 
 	}
