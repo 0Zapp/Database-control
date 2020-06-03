@@ -7,6 +7,7 @@ import controller.InsertTopController;
 import controller.ReportTopController;
 import controller.SearchTopController;
 import controller.UpdateTopController;
+import listener.MyListSelectionListener;
 import observer.Notification;
 import observer.Subscriber;
 import observer.enums.NotificationCode;
@@ -37,13 +38,11 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private AppCore appCore;
 	private JTable jTableTop;
-	// private JTable jTableBottom;
 
 	private JScrollPane scroll;
 	private JSplitPane split;
 	private JSplitPane splitTable;
 	private JScrollPane scrollTableTop;
-	// private JScrollPane scrollTableBottom;
 
 	private JPanel topPanel;
 	private JPanel bottomPanel;
@@ -143,14 +142,8 @@ public class MainFrame extends JFrame implements Subscriber {
 		topPanel.add(scrollTableTop, BorderLayout.CENTER);
 		topPanel.add(buttonPanelTop, BorderLayout.SOUTH);
 
-		// jTableBottom = new JTable();
-		// jTableBottom.setPreferredScrollableViewportSize(new Dimension(500, 300));
-		// jTableBottom.setFillsViewportHeight(true);
-		// scrollTableBottom = new JScrollPane(jTableBottom);
-
 		tpane = new JTabbedPane(JTabbedPane.TOP);
 		tpane.setPreferredSize(new Dimension(500, 300));
-		// tpane.add(scrollTableBottom);// todo
 
 		bottomPanel = new JPanel(new BorderLayout());
 		bottomPanel.add(tpane, BorderLayout.CENTER);
@@ -166,49 +159,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		this.setLocationRelativeTo(null);
 		topTableName = "loading..";
 
-		jTableTop.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				tpane.removeAll();
-				for (DBNode entity : ir.getChildren()) {
-					if (entity.getName().equals(topTableName)) {
-						for (DBNode attribute : ((Entity) entity).getChildren()) {
-							for (DBNode ac : ((Attribute) attribute).getChildren()) {
-								if (((AttributeConstraint) ac).getConstraintType().equals(ConstraintType.FOREIGN_KEY)) {
-									String AttributeName = ((Attribute) attribute).getName();
-									String relatedAttribute = ((Attribute) attribute).getInRelationWith().getName();
-									Entity relatedTable = (Entity) ((Attribute) attribute).getInRelationWith()
-											.getParent();
-									String value = null;
-
-									int columnCount = jTableTop.getColumnCount();
-									int row = jTableTop.getSelectedRow();
-									if (row > 0) {
-										for (int i = 0; i < columnCount; i++) {
-											if (jTableTop.getColumnName(i).equals(AttributeName)) {
-												value = (String) jTableTop.getValueAt(row, i);
-											}
-
-										}
-
-										try {
-											// relatedTable
-											tabName = relatedTable.getName();
-											appCore.addTable(relatedTable, relatedAttribute, value);
-
-										} catch (Exception ex) {
-											// TODO: handle exception
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-
-			}
-		});
+		jTableTop.getSelectionModel().addListSelectionListener(new MyListSelectionListener());
 
 	}
 
@@ -279,11 +230,14 @@ public class MainFrame extends JFrame implements Subscriber {
 
 		}
 
-		// JTable jTableBottom1 = new JTable();
-		// jTableBottom1.setPreferredScrollableViewportSize(new Dimension(500, 300));
-		// jTableBottom1.setFillsViewportHeight(true);
-		// JScrollPane scrollTableBottom1 = new JScrollPane(jTableBottom1);
-		// tpane.add(scrollTableBottom1);
+	}
+
+	public InformationResource getIr() {
+		return ir;
+	}
+
+	public void setIr(InformationResource ir) {
+		this.ir = ir;
 	}
 
 	public JTable getjTableTop() {
@@ -309,6 +263,27 @@ public class MainFrame extends JFrame implements Subscriber {
 		}
 
 		return data;
+	}
+
+	public void removeAlltabs() {
+		tpane.removeAll();
+
+	}
+
+	public String getTopTableName() {
+		return topTableName;
+	}
+
+	public void setTopTableName(String topTableName) {
+		this.topTableName = topTableName;
+	}
+
+	public void setjTableTop(JTable jTableTop) {
+		this.jTableTop = jTableTop;
+	}
+
+	public void setTabName(String tabName) {
+		this.tabName = tabName;
 	}
 
 }
