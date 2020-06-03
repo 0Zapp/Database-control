@@ -24,8 +24,8 @@ public class DatabaseImplementation implements Database {
 	}
 
 	@Override
-	public List<Row> readDataFromTable(String tableName) {
-		return repository.get(tableName);
+	public List<Row> readDataFromTable(String tableName, String relatedAttribute, String value) {
+		return repository.get(tableName,relatedAttribute,value);
 	}
 
 	@Override

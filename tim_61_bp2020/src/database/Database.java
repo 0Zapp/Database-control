@@ -11,7 +11,7 @@ public interface Database {
 
 	void deleteRow(String[] data);
 
-	List<Row> readDataFromTable(String tableName);
+	List<Row> readDataFromTable(String tableName, String relatedAttribute, String value);
 
 	void InsertRow(String[] data);
 

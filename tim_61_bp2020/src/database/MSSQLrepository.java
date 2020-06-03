@@ -280,14 +280,20 @@ public class MSSQLrepository implements Repository {
 	}
 
 	@Override
-	public List<Row> get(String from) {
-
+	public List<Row> get(String from, String relatedAttr, String value) {
+		//System.out.println("get");
 		List<Row> rows = new ArrayList<>();
+		//System.out.println(from+" "+relatedAttr+" "+value);
 
 		try {
 			this.initConnection();
 
 			String query = "SELECT * FROM " + from;
+
+			if (relatedAttr != null && value != null) {
+				query+=" WHERE "+relatedAttr+"='"+value+"'";
+			}
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -303,6 +309,7 @@ public class MSSQLrepository implements Repository {
 				rows.add(row);
 
 			}
+
 		} catch (Exception e) {
 			System.out.print("selektovana tabela ne postoji");
 		} finally {

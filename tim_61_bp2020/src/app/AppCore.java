@@ -54,7 +54,7 @@ public class AppCore extends PublisherImplementation {
 			mainTable = fromTable;
 		}
 		try {
-			tableModel.setRows(this.database.readDataFromTable(mainTable.toString()));
+			tableModel.setRows(this.database.readDataFromTable(mainTable.toString(),null,null));
 			this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, mainTable.toString()));
 			MainFrame.getInstance().addTables();
 		} catch (Exception e) {
@@ -63,9 +63,9 @@ public class AppCore extends PublisherImplementation {
 		}
 	}
 
-	public void addTable(Entity table) {
+	public void addTable(Entity table, String relatedAttribute, String value) {
 		TableModel model = new TableModel();
-		model.setRows(this.database.readDataFromTable(table.getName()));
+		model.setRows(this.database.readDataFromTable(table.getName(),relatedAttribute,value));
 		this.notifySubscribers(new Notification(NotificationCode.ADDED_TABLE, model));
 	}
 

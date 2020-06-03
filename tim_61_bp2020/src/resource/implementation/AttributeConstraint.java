@@ -25,6 +25,14 @@ public class AttributeConstraint extends DBNode {
 		return null;
 	}
 
+	public ConstraintType getConstraintType() {
+		return constraintType;
+	}
+
+	public void setConstraintType(ConstraintType constraintType) {
+		this.constraintType = constraintType;
+	}
+
 	@Override
 	public boolean getAllowsChildren() {
 		return false;

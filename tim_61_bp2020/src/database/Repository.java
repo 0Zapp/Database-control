@@ -9,7 +9,7 @@ public interface Repository {
 
 	DBNode getSchema();
 
-	List<Row> get(String from);
+	List<Row> get(String from, String relatedAttribute, String value);
 
 	void deleteRow(String[] data);
 

@@ -12,11 +12,15 @@ import observer.Subscriber;
 import observer.enums.NotificationCode;
 import resource.DBNode;
 import resource.DBNodeComposite;
+import resource.enums.ConstraintType;
 import resource.implementation.Attribute;
+import resource.implementation.AttributeConstraint;
 import resource.implementation.Entity;
 import resource.implementation.InformationResource;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.tree.TreeNode;
 
@@ -34,7 +38,6 @@ public class MainFrame extends JFrame implements Subscriber {
 	private AppCore appCore;
 	private JTable jTableTop;
 	// private JTable jTableBottom;
-	private MyMenuBar menu;
 
 	private JScrollPane scroll;
 	private JSplitPane split;
@@ -100,9 +103,6 @@ public class MainFrame extends JFrame implements Subscriber {
 
 	private void initialiseGui() {
 
-		menu = new MyMenuBar(this);
-		this.setJMenuBar(menu);
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setTitle("Baze Projekat");
@@ -166,6 +166,50 @@ public class MainFrame extends JFrame implements Subscriber {
 		this.setLocationRelativeTo(null);
 		topTableName = "loading..";
 
+		jTableTop.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				tpane.removeAll();
+				for (DBNode entity : ir.getChildren()) {
+					if (entity.getName().equals(topTableName)) {
+						for (DBNode attribute : ((Entity) entity).getChildren()) {
+							for (DBNode ac : ((Attribute) attribute).getChildren()) {
+								if (((AttributeConstraint) ac).getConstraintType().equals(ConstraintType.FOREIGN_KEY)) {
+									String AttributeName = ((Attribute) attribute).getName();
+									String relatedAttribute = ((Attribute) attribute).getInRelationWith().getName();
+									Entity relatedTable = (Entity) ((Attribute) attribute).getInRelationWith()
+											.getParent();
+									String value = null;
+
+									int columnCount = jTableTop.getColumnCount();
+									int row = jTableTop.getSelectedRow();
+									if (row > 0) {
+										for (int i = 0; i < columnCount; i++) {
+											if (jTableTop.getColumnName(i).equals(AttributeName)) {
+												value = (String) jTableTop.getValueAt(row, i);
+											}
+
+										}
+
+										try {
+											// relatedTable
+											tabName = relatedTable.getName();
+											appCore.addTable(relatedTable, relatedAttribute, value);
+
+										} catch (Exception ex) {
+											// TODO: handle exception
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+			}
+		});
+
 	}
 
 	public void setAppCore(AppCore appCore) {
@@ -181,7 +225,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		if (notification.getCode() == NotificationCode.RESOURCE_LOADED) {
 			IRTreeModel.setRoot((TreeNode) notification.getData());
 			ir = (InformationResource) notification.getData();
-			appCore.readDataFromTable((Entity)IRTreeModel.getChild(IRTreeModel.getRoot(), 0));
+			appCore.readDataFromTable((Entity) IRTreeModel.getChild(IRTreeModel.getRoot(), 0));
 
 		} else if (notification.getCode() == NotificationCode.TABLE_NAME_CHANGE) {
 			topTableName = (String) notification.getData();
@@ -203,7 +247,7 @@ public class MainFrame extends JFrame implements Subscriber {
 			tpane.add(tabName, scrollTableBottom1);
 		}
 		try {
-			jTableTop.setRowSelectionInterval(0, 0);
+			// jTableTop.setRowSelectionInterval(0, 0);
 		} catch (Exception e) {
 			System.out.println("loading...");
 		}
@@ -229,7 +273,7 @@ public class MainFrame extends JFrame implements Subscriber {
 					Attribute related = ((Attribute) a).getInRelationWith();
 					Entity table = (Entity) related.getParent();
 					tabName = table.getName();
-					appCore.addTable(table);
+					appCore.addTable(table, null, null);
 				}
 			}
 
@@ -251,13 +295,17 @@ public class MainFrame extends JFrame implements Subscriber {
 	}
 
 	public String[] getSelectedTop() {
+		int row = jTableTop.getSelectedRow();
+		if (row < 0) {
+			jTableTop.setRowSelectionInterval(0, 0);
+			row = jTableTop.getSelectedRow();
+		}
 		int columnCount = jTableTop.getColumnCount();
 		String data[] = new String[1 + columnCount * 2];
-
 		data[0] = topTableName;
 		for (int i = 0; i < columnCount; i++) {
 			data[i + 1] = jTableTop.getColumnName(i);
-			data[i + 1 + columnCount] = (String) jTableTop.getValueAt(jTableTop.getSelectedRow(), i);
+			data[i + 1 + columnCount] = (String) jTableTop.getValueAt(row, i);
 		}
 
 		return data;
