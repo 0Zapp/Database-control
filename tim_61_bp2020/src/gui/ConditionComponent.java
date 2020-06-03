@@ -51,7 +51,7 @@ public class ConditionComponent implements Subscriber {
 		}
 		field.setPreferredSize(new Dimension(150, 24));
 		
-		if(remove != null) {
+		if(controller != null) {
 			controller.setCC(this);
 			remove = new JButton(controller);
 		}

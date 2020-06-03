@@ -51,4 +51,14 @@ public class DatabaseImplementation implements Database {
 		repository.FaS(data);
 		
 	}
+	
+	@Override
+	public List<Row> Search(String[] data) {
+		return repository.Search(data);
+	}
+	
+	@Override
+	public List<Row> Report(String[] data) {
+		return repository.Report(data);
+	}
 }

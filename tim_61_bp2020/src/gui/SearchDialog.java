@@ -31,6 +31,7 @@ import resource.implementation.Entity;
 
 public class SearchDialog extends JDialog implements ActionListener {
 	
+	String[] data;
 	ArrayList<ConditionComponent> listConditions;
 	JPanel grid;
 	JPanel newCondition;
@@ -49,6 +50,8 @@ public class SearchDialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 
 		Entity table = MainFrame.getInstance().getAppCore().getMainTable();
+		data = new String[2];
+		data[0] = table.toString();
 		availableColumns = new ArrayList<Attribute>();
 		for(DBNode child : table.getChildren()) {
 			if(child instanceof Attribute) {
@@ -137,11 +140,12 @@ public class SearchDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getActionCommand().equals("OK")) {
-			String clause = "";
+			data[1] = "";
 			for(ConditionComponent cc : listConditions) {
-				clause += cc.getClause();
+				data[1] += cc.getClause();
 			}
-			System.out.println(clause);
+			//System.out.println(data[1]);
+			MainFrame.getInstance().getAppCore().Search(data);
 		}
 
 		setVisible(false); // you can't see me!

@@ -18,4 +18,8 @@ public interface Repository {
 	void InsertRow(String[] data);
 
 	void FaS(String[] data);
+
+	List<Row> Search(String[] data);
+	
+	List<Row> Report(String[] data);
 }

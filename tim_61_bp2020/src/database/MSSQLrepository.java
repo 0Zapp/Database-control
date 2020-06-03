@@ -338,5 +338,71 @@ public class MSSQLrepository implements Repository {
 		}
 
 	}
+	
+	
+	@Override
+	public List<Row> Search(String[] data) {
 
+		List<Row> rows = new ArrayList<>();
+
+		try {
+			this.initConnection();
+
+			String query = "SELECT * FROM " + data[0] + " WHERE " + data[1];
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				Row row = new Row();
+				row.setName(data[0]);
+
+				ResultSetMetaData resultSetMetaData = rs.getMetaData();
+				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+					row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+				}
+				rows.add(row);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+
+		return rows;
+	}
+	
+	@Override
+	public List<Row> Report(String[] data) {
+		List<Row> rows = new ArrayList<>();
+
+		try {
+			this.initConnection();
+
+			String query = "SELECT " + data[1] + " FROM " + data[0] + data[2];
+			System.out.println(query);
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				Row row = new Row();
+				row.setName(data[0]);
+
+				ResultSetMetaData resultSetMetaData = rs.getMetaData();
+				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+					row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+				}
+				rows.add(row);
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+
+		return rows;
+	}
 }

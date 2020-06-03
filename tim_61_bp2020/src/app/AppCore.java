@@ -101,5 +101,17 @@ public class AppCore extends PublisherImplementation {
 		this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
 		
 	}
+	
+	public void Search(String[] data) {
+		tableModel.setRows(this.database.Search(data));
+		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
+		// this.getTableModel()));
+	}
+	
+	public void Report(String[] data) {
+		tableModel.setRows(this.database.Report(data));
+		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
+		// this.getTableModel()));
+	}
 
 }

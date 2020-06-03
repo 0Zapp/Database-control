@@ -18,5 +18,9 @@ public interface Database {
 	void UpdateRow(String[] data, String[] original);
 
 	void FaS(String[] data);
+	
+	List<Row> Search(String[] data);
+	
+	List<Row> Report(String[] data);
 
 }

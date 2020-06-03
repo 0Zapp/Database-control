@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import gui.MainFrame;
-import gui.SearchDialog;
+import gui.ReportDialog;
 
-public class SearchTopController implements ActionListener {
+public class ReportTopController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(MainFrame.getInstance().getAppCore().getMainTable() != null) {
-			SearchDialog dialog = new SearchDialog(MainFrame.getInstance(), "Search", true);
+			ReportDialog dialog = new ReportDialog(MainFrame.getInstance(), "Report", true);
 			dialog.setVisible(true);
 		}
 	}

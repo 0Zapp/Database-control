@@ -4,6 +4,7 @@ import app.AppCore;
 import controller.DeleteTopController;
 import controller.FaSController;
 import controller.InsertTopController;
+import controller.ReportTopController;
 import controller.SearchTopController;
 import controller.UpdateTopController;
 import observer.Notification;
@@ -50,6 +51,7 @@ public class MainFrame extends JFrame implements Subscriber {
 	private JButton UpdateTop;
 	private JButton FaS;
 	private JButton SearchTop;
+	private JButton ReportTop;
 
 	private IRTreeModel IRTreeModel;
 	private IRTree IRTree;
@@ -125,6 +127,8 @@ public class MainFrame extends JFrame implements Subscriber {
 		FaS.addActionListener(new FaSController());
 		SearchTop = new JButton("Search");
 		SearchTop.addActionListener(new SearchTopController());
+		ReportTop = new JButton("Report");
+		ReportTop.addActionListener(new ReportTopController());
 
 		buttonPanelTop = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -133,6 +137,7 @@ public class MainFrame extends JFrame implements Subscriber {
 		buttonPanelTop.add(InsertTop);
 		buttonPanelTop.add(UpdateTop);
 		buttonPanelTop.add(FaS);
+		buttonPanelTop.add(ReportTop);
 
 		topPanel = new JPanel(new BorderLayout());
 		topPanel.add(scrollTableTop, BorderLayout.CENTER);
