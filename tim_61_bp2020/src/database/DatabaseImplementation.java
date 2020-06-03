@@ -47,8 +47,8 @@ public class DatabaseImplementation implements Database {
 	}
 
 	@Override
-	public void FaS(String[] data) {
-		repository.FaS(data);
+	public List<Row> FaS(String[] data,String[] filter,String[] sort) {
+		return repository.FaS(data,filter,sort);
 		
 	}
 	

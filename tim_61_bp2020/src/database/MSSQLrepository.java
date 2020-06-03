@@ -304,7 +304,7 @@ public class MSSQLrepository implements Repository {
 
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.print("selektovana tabela ne postoji");
 		} finally {
 			this.closeConnection();
 		}
@@ -313,23 +313,70 @@ public class MSSQLrepository implements Repository {
 	}
 
 	@Override
-	public void FaS(String[] data) {
+	public List<Row> FaS(String[] data, String[] filter, String[] sort) {
+
+		List<Row> rows = new ArrayList<>();
 
 		try {
 			this.initConnection();
 
-			String query = "SELECT filter and search";
+			String query = "SELECT";
+			boolean first = true;
 
-			// query = "DELETE FROM " + data[0] + " WHERE " + data[1] + "='" +
-			// data[data.length / 2 + 1] + "'";
-			// for (int i = 2; i <= data.length / 2; i++) {
-			// query += " AND " + data[i] + "='";
-			// query += data[data.length / 2 + i] + "'";
-			// }
+			for (int i = 1; i <= filter.length; i++) {
+				if (filter[i - 1].equals("Prikazi")) {
+					if (first) {
+						query += " " + data[i];
+						first = false;
+					} else {
+						query += ", " + data[i];
+					}
+
+				}
+			}
+
+			query += " FROM " + data[0];
+			first = true;
+
+			for (int i = 1; i <= sort.length; i++) {
+				if (sort[i - 1].equals("Asc")) {
+					if (first) {
+						query += " ORDER BY";
+						query += " " + data[i] + " ASC";
+						first = false;
+					} else {
+						query += ", ";
+						query += " " + data[i] + " ASC";
+					}
+				} else if (sort[i - 1].equals("Desc")) {
+					if (first) {
+						query += " ORDER BY ";
+						query += " " + data[i] + " DESC";
+						first = false;
+					} else {
+						query += ", ";
+						query += " " + data[i] + " DESC";
+					}
+				}
+
+			}
 
 			System.out.println(query);
-			// PreparedStatement preparedStatement = connection.prepareStatement(query);
-			// preparedStatement.executeUpdate();
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+
+				Row row = new Row();
+				row.setName(data[0]);
+
+				ResultSetMetaData resultSetMetaData = rs.getMetaData();
+				for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+					row.addField(resultSetMetaData.getColumnName(i), rs.getString(i));
+				}
+				rows.add(row);
+
+			}
 
 		} catch (Exception e) {
 			System.out.println("upit se ne moze izvrsiti zbog konflikta");
@@ -337,9 +384,9 @@ public class MSSQLrepository implements Repository {
 			this.closeConnection();
 		}
 
+		return rows;
 	}
-	
-	
+
 	@Override
 	public List<Row> Search(String[] data) {
 
@@ -372,7 +419,7 @@ public class MSSQLrepository implements Repository {
 
 		return rows;
 	}
-	
+
 	@Override
 	public List<Row> Report(String[] data) {
 		List<Row> rows = new ArrayList<>();

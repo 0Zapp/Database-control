@@ -50,15 +50,17 @@ public class AppCore extends PublisherImplementation {
 
 	public void readDataFromTable(Entity fromTable) {
 
-		if(fromTable != null) {
+		if (fromTable != null) {
 			mainTable = fromTable;
 		}
-		tableModel.setRows(this.database.readDataFromTable(mainTable.toString()));
-		this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, mainTable.toString()));
-		MainFrame.getInstance().addTables();
-		// Zasto ova linija moze da ostane zakomentarisana?
-		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
-		// this.getTableModel()));
+		try {
+			tableModel.setRows(this.database.readDataFromTable(mainTable.toString()));
+			this.notifySubscribers(new Notification(NotificationCode.TABLE_NAME_CHANGE, mainTable.toString()));
+			MainFrame.getInstance().addTables();
+		} catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println("!");
+		}
 	}
 
 	public void addTable(Entity table) {
@@ -74,7 +76,7 @@ public class AppCore extends PublisherImplementation {
 	public void setTableModel(TableModel tableModel) {
 		this.tableModel = tableModel;
 	}
-	
+
 	public Entity getMainTable() {
 		return mainTable;
 	}
@@ -96,18 +98,18 @@ public class AppCore extends PublisherImplementation {
 
 	}
 
-	public void FaS(String[] data) {
-		this.database.FaS(data);
-		this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
-		
+	public void FaS(String[] data, String[] filter, String[] sort) {
+		tableModel.setRows(this.database.FaS(data,filter,sort));
+	//	this.notifySubscribers(new Notification(NotificationCode.ROW_CHANGE, 1));
+
 	}
-	
+
 	public void Search(String[] data) {
 		tableModel.setRows(this.database.Search(data));
 		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,
 		// this.getTableModel()));
 	}
-	
+
 	public void Report(String[] data) {
 		tableModel.setRows(this.database.Report(data));
 		// this.notifySubscribers(new Notification(NotificationCode.DATA_UPDATED,

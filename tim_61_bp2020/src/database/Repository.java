@@ -17,7 +17,7 @@ public interface Repository {
 
 	void InsertRow(String[] data);
 
-	void FaS(String[] data);
+	List<Row> FaS(String[] data, String[] filter, String[] sort);
 
 	List<Row> Search(String[] data);
 	
